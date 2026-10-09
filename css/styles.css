@@ -867,6 +867,30 @@ a { color: var(--red); }
 
 .site-footer :focus-visible { box-shadow: 0 0 0 3px var(--charcoal), 0 0 0 5px #fff; }
 
+/* ---------- Toast (email copied) ---------- */
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: 24px;
+  z-index: 300;
+  max-width: calc(100% - 32px);
+  padding: 12px 20px;
+  background: #fff;
+  color: var(--ink);
+  border: 1px solid var(--line);
+  border-left: 4px solid var(--red);
+  font-size: 0.95rem;
+  font-weight: 500;
+  text-align: center;
+  border-radius: 10px;
+  box-shadow: 0 8px 32px rgba(43, 42, 38, 0.25);
+  opacity: 0;
+  transform: translate(-50%, 16px);
+  transition: opacity .2s ease, transform .2s ease;
+  pointer-events: none;
+}
+.toast.is-visible { opacity: 1; transform: translate(-50%, 0); }
+
 /* ---------- Responsive ---------- */
 @media (max-width: 1024px) {
   .brand { flex: none; }

@@ -3,7 +3,8 @@
    1. Events: home page + events.html (edit the EVENTS array below)
    2. Mobile menu toggle
    3. Clean URLs (no .html, no #section) + section scrolling
-   4. Footer year
+   4. Email links (copy address + toast)
+   5. Footer year
    ========================================================= */
 
 /*
@@ -288,6 +289,54 @@ function scrollToInitialHash() {
   if (target) goToSection(target, "instant");
 }
 
+/* ---------- Email links ----------
+ * mailto: does nothing on computers without a mail app set up, so clicking
+ * any email link also copies the address and says so. */
+let toast, toastTimer;
+
+function initEmailLinks() {
+  toast = el("div", "toast");
+  toast.setAttribute("role", "status"); // announced by screen readers
+  document.body.appendChild(toast);
+
+  document.addEventListener("click", (e) => {
+    const link = e.target.closest('a[href^="mailto:"]');
+    if (!link) return;
+    const address = decodeURIComponent(link.getAttribute("href").slice(7).split("?")[0]);
+    copyText(address).then((ok) => showToast(ok ? "Email address copied: " + address : "Email us at " + address));
+  });
+}
+
+function copyText(text) {
+  if (navigator.clipboard && window.isSecureContext) {
+    return navigator.clipboard.writeText(text).then(() => true, () => fallbackCopy(text));
+  }
+  return Promise.resolve(fallbackCopy(text));
+}
+
+// Clipboard API needs HTTPS; this older method works everywhere.
+function fallbackCopy(text) {
+  const previous = document.activeElement;
+  const area = document.createElement("textarea");
+  area.value = text;
+  area.setAttribute("readonly", "");
+  area.style.cssText = "position:fixed;top:0;left:0;opacity:0";
+  document.body.appendChild(area);
+  area.select();
+  let ok = false;
+  try { ok = document.execCommand("copy"); } catch (err) { ok = false; }
+  area.remove();
+  if (previous) previous.focus({ preventScroll: true });
+  return ok;
+}
+
+function showToast(message) {
+  toast.textContent = message;
+  toast.classList.add("is-visible");
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => toast.classList.remove("is-visible"), 4000);
+}
+
 /* ---------- Footer year ---------- */
 function setYear() {
   document.querySelectorAll("[data-year]").forEach((node) => {
@@ -299,5 +348,6 @@ cleanUrl();
 renderEvents();
 initNav();
 initSectionLinks();
+initEmailLinks();
 setYear();
 window.addEventListener("load", scrollToInitialHash);
