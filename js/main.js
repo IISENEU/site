@@ -2,7 +2,7 @@
    IISE Northeastern: site script
    1. Events: home page + events.html (edit the EVENTS array below)
    2. Mobile menu toggle
-   3. Cross-page anchor alignment + clean URLs
+   3. Clean URLs (no .html, no #section) + section scrolling
    4. Footer year
    ========================================================= */
 
@@ -246,22 +246,46 @@ function initNav() {
   });
 }
 
-/* ---------- Cross-page anchors ----------
- * Arriving from a stub page at index.html#events etc.: rendered events shift the
- * layout, so re-align to the target once everything (including fonts) has loaded. */
-function scrollToHash() {
-  const id = decodeURIComponent(location.hash.slice(1));
-  const target = id && document.getElementById(id);
-  if (target) target.scrollIntoView({ behavior: "instant" });
+/* ---------- Clean URLs ----------
+ * Addresses stay as /, /events, /semester-project: no ".html" and no "#section".
+ * Section links (About, Events, Get Involved) scroll in place without adding a
+ * #hash, and old links like /index.html#events are tidied on arrival. */
+const initialHash = location.hash;
+
+function cleanPath(path) {
+  return path.replace(/\/index\.html$/, "/").replace(/\.html$/, "");
 }
 
-/* ---------- Clean URLs ----------
- * Old links and bookmarks may still use /events.html or /index.html.
- * Show the clean address (/events, /) without reloading the page. */
+function goToSection(target, behavior) {
+  target.scrollIntoView(behavior ? { behavior } : undefined); // default follows CSS smooth scroll + scroll-padding
+  if (!target.hasAttribute("tabindex")) target.setAttribute("tabindex", "-1");
+  target.focus({ preventScroll: true }); // keep keyboard and screen-reader position in sync
+}
+
 function cleanUrl() {
   if (location.protocol === "file:") return;
-  const clean = location.pathname.replace(/\/index\.html$/, "/").replace(/\.html$/, "");
-  if (clean !== location.pathname) history.replaceState(null, "", clean + location.search + location.hash);
+  const clean = cleanPath(location.pathname);
+  if (clean !== location.pathname || location.hash) history.replaceState(null, "", clean + location.search);
+}
+
+function initSectionLinks() {
+  document.addEventListener("click", (e) => {
+    const link = e.target.closest('a[href*="#"]');
+    if (!link || e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+    const url = new URL(link.href);
+    if (url.origin !== location.origin || cleanPath(url.pathname) !== cleanPath(location.pathname)) return;
+    const target = document.getElementById(decodeURIComponent(url.hash.slice(1)));
+    if (!target) return;
+    e.preventDefault();
+    goToSection(target);
+  });
+}
+
+// Arriving from another page (/#events): rendered events shift the layout,
+// so align to the section once everything (including fonts) has loaded.
+function scrollToInitialHash() {
+  const target = initialHash && document.getElementById(decodeURIComponent(initialHash.slice(1)));
+  if (target) goToSection(target, "instant");
 }
 
 /* ---------- Footer year ---------- */
@@ -274,5 +298,6 @@ function setYear() {
 cleanUrl();
 renderEvents();
 initNav();
+initSectionLinks();
 setYear();
-window.addEventListener("load", scrollToHash);
+window.addEventListener("load", scrollToInitialHash);

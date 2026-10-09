@@ -59,6 +59,9 @@ p { margin: 0 0 1em; }
 
 a { color: var(--red); }
 
+/* Sections focused by section links (js/main.js) don't need a ring */
+[tabindex="-1"]:focus { outline: none; box-shadow: none; }
+
 :focus-visible {
   outline: none;
   box-shadow: var(--focus);
