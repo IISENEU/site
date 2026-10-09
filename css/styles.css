@@ -750,6 +750,35 @@ a { color: var(--red); }
 .cert-note a { color: #fff; overflow-wrap: anywhere; }
 .cert-pricing :focus-visible { box-shadow: 0 0 0 3px var(--charcoal), 0 0 0 5px #fff; }
 
+/* ---------- Leadership page ---------- */
+.people {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 32px 24px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.people-chairs { grid-template-columns: repeat(5, 1fr); }
+
+.person img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  border-radius: var(--radius);
+  background: var(--line);
+  margin-bottom: 14px;
+}
+.person h3 { font-size: 1.3rem; font-weight: 500; margin: 0 0 2px; }
+.people-chairs .person h3 { font-size: 1.15rem; }
+.person p {
+  margin: 0;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--red);
+}
+
 /* ---------- Stub pages ---------- */
 .stub {
   min-height: 55vh;
@@ -846,6 +875,7 @@ a { color: var(--red); }
   .site-nav .nav-cta { margin-left: 4px; padding: 8px 14px; }
   .card-grid { grid-template-columns: repeat(2, 1fr); }
   .highlights > :last-child:nth-child(odd) { grid-column: 1 / -1; }
+  .people-chairs { grid-template-columns: repeat(4, 1fr); }
   .involved { gap: 40px; }
   .project-feature { gap: 40px; }
   .cert { grid-template-columns: 1fr; gap: 40px; }
@@ -928,6 +958,11 @@ a { color: var(--red); }
   .cta-band { flex-direction: column; align-items: stretch; padding: 24px; }
   .cta-band .btn { width: 100%; }
   .cert-pricing { padding: 24px; }
+  .people,
+  .people-chairs { grid-template-columns: repeat(2, 1fr); gap: 24px 16px; }
+  .person h3,
+  .people-chairs .person h3 { font-size: 1.05rem; }
+  .person p { font-size: 0.825rem; }
 
   .footer-inner { flex-direction: column; align-items: flex-start; }
 }
