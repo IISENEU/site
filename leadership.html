@@ -68,96 +68,150 @@
       </div>
     </section>
 
-    <!-- Photos live in assets/team/ (600x750 JPEGs, 4:5) -->
-    <section class="section" aria-labelledby="exec-title">
+    <!-- Org chart: President, then each VP with the chairs on their team.
+         Photos live in assets/team/ (600x750 JPEGs, 4:5). -->
+    <section class="section" aria-labelledby="board-title">
       <div class="container">
         <header class="section-head">
-          <p class="eyebrow">Officers</p>
-          <h2 id="exec-title">Executive board</h2>
+          <p class="eyebrow">Fall 2026</p>
+          <h2 id="board-title">Executive board</h2>
         </header>
-        <ul class="people people-exec" role="list">
-          <li class="person">
-            <img src="assets/team/brendan-wang.jpg" alt="Brendan Wang" width="600" height="750">
-            <h3>Brendan Wang</h3>
-            <p>President</p>
-          </li>
-          <li class="person">
-            <img src="assets/team/manuela-tafur.jpg" alt="Manuela Tafur" width="600" height="750">
-            <h3>Manuela Tafur</h3>
-            <p>VP of Operations</p>
-          </li>
-          <li class="person">
-            <img src="assets/team/wasi-naqvi.jpg" alt="Wasi Naqvi" width="600" height="750">
-            <h3>Wasi Naqvi</h3>
-            <p>VP of Development</p>
-          </li>
-          <li class="person">
-            <img src="assets/team/david-ostrowsky.jpg" alt="David Ostrowsky" width="600" height="750">
-            <h3>David Ostrowsky</h3>
-            <p>VP of Communications</p>
-          </li>
-        </ul>
-      </div>
-    </section>
 
-    <section class="section section-alt" aria-labelledby="chairs-title">
-      <div class="container">
-        <header class="section-head">
-          <p class="eyebrow">Committees</p>
-          <h2 id="chairs-title">Chairs</h2>
-        </header>
-        <ul class="people people-chairs" role="list">
-          <li class="person">
-            <img src="assets/team/evelyna-pavlatos.jpg" alt="Evelyna Pavlatos" width="600" height="750" loading="lazy">
-            <h3>Evelyna Pavlatos</h3>
-            <p>Academic Chair</p>
-          </li>
-          <li class="person">
-            <img src="assets/team/aryaman-desai.jpg" alt="Aryaman Desai" width="600" height="750" loading="lazy">
-            <h3>Aryaman Desai</h3>
-            <p>Community Engagement Chair</p>
-          </li>
-          <li class="person">
-            <img src="assets/team/gurvani-singh.jpg" alt="Gurvani Singh" width="600" height="750" loading="lazy">
-            <h3>Gurvani Singh</h3>
-            <p>Financial Chair</p>
-          </li>
-          <li class="person">
-            <img src="assets/team/giovanni-amador.jpg" alt="Giovanni Amador" width="600" height="750" loading="lazy">
-            <h3>Giovanni Amador</h3>
-            <p>IISE Relations Chair</p>
-          </li>
-          <li class="person">
-            <img src="assets/team/marcus-tisdale.jpg" alt="Marcus Tisdale" width="600" height="750" loading="lazy">
-            <h3>Marcus Tisdale</h3>
-            <p>Professional Relations Chair</p>
-          </li>
-          <li class="person">
-            <img src="assets/team/ashton-daniels.jpg" alt="Ashton Daniels" width="600" height="750" loading="lazy">
-            <h3>Ashton Daniels</h3>
-            <p>Project Chair</p>
-          </li>
-          <li class="person">
-            <img src="assets/team/pranati-bala.jpg" alt="Pranati Bala" width="600" height="750" loading="lazy">
-            <h3>Pranati Bala</h3>
-            <p>Project Chair</p>
-          </li>
-          <li class="person">
-            <img src="assets/team/paris-chan.jpg" alt="Paris Chan" width="600" height="750" loading="lazy">
-            <h3>Paris Chan</h3>
-            <p>Public Relations Chair</p>
-          </li>
-          <li class="person">
-            <img src="assets/team/david-reznik.jpg" alt="David Reznik" width="600" height="750" loading="lazy">
-            <h3>David Reznik</h3>
-            <p>Skills Chair</p>
-          </li>
-          <li class="person">
-            <img src="assets/team/nicole-resteghini.jpg" alt="Nicole Resteghini" width="600" height="750" loading="lazy">
-            <h3>Nicole Resteghini</h3>
-            <p>Social Chair</p>
-          </li>
-        </ul>
+        <div class="org">
+          <div class="org-card org-president">
+              <img src="assets/team/brendan-wang.jpg" alt="Brendan Wang" width="600" height="750">
+              <div>
+                <h3>Brendan Wang</h3>
+                <p>President</p>
+              </div>
+            </div>
+
+          <div class="org-teams">
+        <section class="org-team" aria-label="Operations team">
+          <div class="org-card org-vp">
+              <img src="assets/team/manuela-tafur.jpg" alt="Manuela Tafur" width="600" height="750">
+              <div>
+                <h3>Manuela Tafur</h3>
+                <p>VP of Operations</p>
+              </div>
+            </div>
+          <ul class="org-chairs" role="list">
+            <li>
+              <div class="org-chair">
+              <img src="assets/team/marcus-tisdale.jpg" alt="Marcus Tisdale" width="600" height="750" loading="lazy">
+              <div>
+                <h4>Marcus Tisdale</h4>
+                <p>Professional Relations Chair</p>
+              </div>
+            </div>
+            </li>
+            <li>
+              <div class="org-chair">
+              <img src="assets/team/gurvani-singh.jpg" alt="Gurvani Singh" width="600" height="750" loading="lazy">
+              <div>
+                <h4>Gurvani Singh</h4>
+                <p>Financial Chair</p>
+              </div>
+            </div>
+            </li>
+            <li>
+              <div class="org-chair">
+              <img src="assets/team/aryaman-desai.jpg" alt="Aryaman Desai" width="600" height="750" loading="lazy">
+              <div>
+                <h4>Aryaman Desai</h4>
+                <p>Community Engagement Chair</p>
+              </div>
+            </div>
+            </li>
+          </ul>
+        </section>
+        <section class="org-team" aria-label="Communications team">
+          <div class="org-card org-vp">
+              <img src="assets/team/david-ostrowsky.jpg" alt="David Ostrowsky" width="600" height="750">
+              <div>
+                <h3>David Ostrowsky</h3>
+                <p>VP of Communications</p>
+              </div>
+            </div>
+          <ul class="org-chairs" role="list">
+            <li>
+              <div class="org-chair">
+              <img src="assets/team/nicole-resteghini.jpg" alt="Nicole Resteghini" width="600" height="750" loading="lazy">
+              <div>
+                <h4>Nicole Resteghini</h4>
+                <p>Social Chair</p>
+              </div>
+            </div>
+            </li>
+            <li>
+              <div class="org-chair">
+              <img src="assets/team/paris-chan.jpg" alt="Paris Chan" width="600" height="750" loading="lazy">
+              <div>
+                <h4>Paris Chan</h4>
+                <p>Public Relations Chair</p>
+              </div>
+            </div>
+            </li>
+            <li>
+              <div class="org-chair">
+              <img src="assets/team/giovanni-amador.jpg" alt="Giovanni Amador" width="600" height="750" loading="lazy">
+              <div>
+                <h4>Giovanni Amador</h4>
+                <p>IISE Relations Chair</p>
+              </div>
+            </div>
+            </li>
+          </ul>
+        </section>
+        <section class="org-team" aria-label="Development team">
+          <div class="org-card org-vp">
+              <img src="assets/team/wasi-naqvi.jpg" alt="Wasi Naqvi" width="600" height="750">
+              <div>
+                <h3>Wasi Naqvi</h3>
+                <p>VP of Development</p>
+              </div>
+            </div>
+          <ul class="org-chairs" role="list">
+            <li>
+              <div class="org-chair">
+              <img src="assets/team/david-reznik.jpg" alt="David Reznik" width="600" height="750" loading="lazy">
+              <div>
+                <h4>David Reznik</h4>
+                <p>Skills Chair</p>
+              </div>
+            </div>
+            </li>
+            <li>
+              <div class="org-chair">
+              <img src="assets/team/evelyna-pavlatos.jpg" alt="Evelyna Pavlatos" width="600" height="750" loading="lazy">
+              <div>
+                <h4>Evelyna Pavlatos</h4>
+                <p>Academic Chair</p>
+              </div>
+            </div>
+            </li>
+            <li>
+              <div class="org-chair">
+              <img src="assets/team/ashton-daniels.jpg" alt="Ashton Daniels" width="600" height="750" loading="lazy">
+              <div>
+                <h4>Ashton Daniels</h4>
+                <p>Project Chair</p>
+              </div>
+            </div>
+            </li>
+            <li>
+              <div class="org-chair">
+              <img src="assets/team/pranati-bala.jpg" alt="Pranati Bala" width="600" height="750" loading="lazy">
+              <div>
+                <h4>Pranati Bala</h4>
+                <p>Project Chair</p>
+              </div>
+            </div>
+            </li>
+          </ul>
+        </section>
+          </div>
+        </div>
 
         <div class="cta-band">
           <p>Have a question for the e-board? We're happy to help.</p>

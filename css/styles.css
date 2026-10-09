@@ -750,34 +750,91 @@ a { color: var(--red); }
 .cert-note a { color: #fff; overflow-wrap: anywhere; }
 .cert-pricing :focus-visible { box-shadow: 0 0 0 3px var(--charcoal), 0 0 0 5px #fff; }
 
-/* ---------- Leadership page ---------- */
-.people {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 32px 24px;
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-.people-chairs { grid-template-columns: repeat(5, 1fr); }
+/* ---------- Leadership page (org chart) ---------- */
+.org { --org-gap: 32px; --line-color: #C9C8C3; }
 
-.person img {
+.org-card { text-align: center; }
+.org-card img {
   width: 100%;
   height: auto;
   aspect-ratio: 4 / 5;
   object-fit: cover;
   border-radius: var(--radius);
   background: var(--line);
-  margin-bottom: 14px;
+  margin: 0 auto 12px;
 }
-.person h3 { font-size: 1.3rem; font-weight: 500; margin: 0 0 2px; }
-.people-chairs .person h3 { font-size: 1.15rem; }
-.person p {
+.org-card h3 { font-size: 1.3rem; font-weight: 500; margin: 0 0 2px; }
+.org-card p { margin: 0; font-size: 0.9rem; font-weight: 600; color: var(--red); }
+
+.org-president { width: 220px; margin: 0 auto; }
+.org-president h3 { font-size: 1.5rem; }
+.org-vp { width: 180px; margin: 0 auto; }
+
+/* Connectors: president -> bar across the teams -> each VP -> their chairs */
+.org-president::after,
+.org-team::before,
+.org-vp::after {
+  content: "";
+  display: block;
+  width: 2px;
+  margin: 0 auto;
+  background: var(--line-color);
+}
+.org-president::after { height: 32px; margin-top: 16px; }
+.org-team::before { height: 24px; }
+.org-vp::after { height: 20px; margin-top: 12px; }
+
+.org-teams {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--org-gap);
+  align-items: start;
+}
+.org-teams::before {          /* horizontal bar joining the three column centers */
+  content: "";
+  position: absolute;
+  top: 0;
+  left: calc((100% - 2 * var(--org-gap)) / 6);
+  right: calc((100% - 2 * var(--org-gap)) / 6);
+  height: 2px;
+  background: var(--line-color);
+}
+
+.org-chairs {
+  display: grid;
+  gap: 8px;
+  list-style: none;
   margin: 0;
-  font-size: 0.9rem;
-  font-weight: 500;
-  color: var(--red);
+  padding: 12px;
+  background: var(--bg-alt);
+  border-radius: var(--radius);
 }
+.org-chair {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 8px;
+  background: #fff;
+  border-radius: 10px;
+}
+.org-chair img {
+  flex: none;
+  width: 64px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 8px;
+  background: var(--line);
+}
+.org-chair h4 {
+  margin: 0 0 2px;
+  font-family: var(--font-head);
+  font-size: 1.1rem;
+  font-weight: 500;
+  line-height: 1.15;
+  text-transform: uppercase;
+}
+.org-chair p { margin: 0; font-size: 0.85rem; font-weight: 500; line-height: 1.35; color: var(--red); }
 
 /* ---------- Stub pages ---------- */
 .stub {
@@ -875,7 +932,8 @@ a { color: var(--red); }
   .site-nav .nav-cta { margin-left: 4px; padding: 8px 14px; }
   .card-grid { grid-template-columns: repeat(2, 1fr); }
   .highlights > :last-child:nth-child(odd) { grid-column: 1 / -1; }
-  .people-chairs { grid-template-columns: repeat(4, 1fr); }
+  .org { --org-gap: 16px; }
+  .org-chair { flex-direction: column; align-items: flex-start; gap: 8px; }
   .involved { gap: 40px; }
   .project-feature { gap: 40px; }
   .cert { grid-template-columns: 1fr; gap: 40px; }
@@ -958,11 +1016,14 @@ a { color: var(--red); }
   .cta-band { flex-direction: column; align-items: stretch; padding: 24px; }
   .cta-band .btn { width: 100%; }
   .cert-pricing { padding: 24px; }
-  .people,
-  .people-chairs { grid-template-columns: repeat(2, 1fr); gap: 24px 16px; }
-  .person h3,
-  .people-chairs .person h3 { font-size: 1.05rem; }
-  .person p { font-size: 0.825rem; }
+  /* Stack the teams; each VP keeps a short connector to their chairs */
+  .org-teams { grid-template-columns: 1fr; gap: 40px; }
+  .org-teams::before,
+  .org-team::before,
+  .org-president::after { display: none; }
+  .org-president { width: 200px; margin-bottom: 40px; }
+  .org-vp { width: 160px; }
+  .org-chair { flex-direction: row; align-items: center; }
 
   .footer-inner { flex-direction: column; align-items: flex-start; }
 }
