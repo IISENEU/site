@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Semester Projects | IISE at Northeastern University</title>
+  <meta name="description" content="Each semester, Northeastern IISE members take on a real operations project for a Boston-area nonprofit. See our current and past projects.">
+  <meta name="theme-color" content="#CE1126">
+  <link rel="icon" type="image/png" href="assets/iise-logo.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+  <script src="js/main.js" defer></script>
+</head>
+<body>
+  <!-- Icon sprite: referenced below with <use href="#icon-…">. Shapes based on Lucide (ISC license). -->
+  <svg xmlns="http://www.w3.org/2000/svg" class="sprite" aria-hidden="true">
+    <symbol id="icon-instagram" viewBox="0 0 24 24"><rect width="20" height="20" x="2" y="2" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></symbol>
+    <symbol id="icon-linkedin" viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></symbol>
+    <symbol id="icon-slack" viewBox="0 0 24 24"><rect width="3" height="8" x="13" y="2" rx="1.5"/><path d="M19 8.5V10h1.5A1.5 1.5 0 1 0 19 8.5"/><rect width="3" height="8" x="8" y="14" rx="1.5"/><path d="M5 15.5V14H3.5A1.5 1.5 0 1 0 5 15.5"/><rect width="8" height="3" x="14" y="13" rx="1.5"/><path d="M15.5 19H14v1.5a1.5 1.5 0 1 0 1.5-1.5"/><rect width="8" height="3" x="2" y="8" rx="1.5"/><path d="M8.5 5H10V3.5A1.5 1.5 0 1 0 8.5 5"/></symbol>
+    <symbol id="icon-mail" viewBox="0 0 24 24"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></symbol>
+    <symbol id="icon-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></symbol>
+    <symbol id="icon-pin" viewBox="0 0 24 24"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></symbol>
+    <symbol id="icon-calendar" viewBox="0 0 24 24"><rect width="18" height="18" x="3" y="4" rx="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></symbol>
+    <symbol id="icon-briefcase" viewBox="0 0 24 24"><rect width="20" height="14" x="2" y="7" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></symbol>
+    <symbol id="icon-link" viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></symbol>
+    <symbol id="icon-users" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></symbol>
+    <symbol id="icon-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
+    <symbol id="icon-workflow" viewBox="0 0 24 24"><rect width="8" height="8" x="3" y="3" rx="2"/><path d="M7 11v4a2 2 0 0 0 2 2h4"/><rect width="8" height="8" x="13" y="13" rx="2"/></symbol>
+    <symbol id="icon-building" viewBox="0 0 24 24"><path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"/><path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2"/><path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2"/><path d="M10 6h4"/><path d="M10 10h4"/><path d="M10 14h4"/><path d="M10 18h4"/></symbol>
+    <symbol id="icon-presentation" viewBox="0 0 24 24"><path d="M2 3h20"/><path d="M21 3v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V3"/><path d="m7 21 5-5 5 5"/></symbol>
+    <symbol id="icon-arrow" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></symbol>
+  </svg>
+
+  <a class="skip-link" href="#main">Skip to main content</a>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="index.html">
+        <img src="assets/iise-logo.png" alt="IISE Northeastern University Chapter, home" width="48" height="46">
+        <span class="brand-text">IISE <span>Northeastern</span></span>
+      </a>
+
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
+        <span class="nav-toggle-bar" aria-hidden="true"></span>
+        <span class="visually-hidden">Menu</span>
+      </button>
+
+      <nav id="site-nav" class="site-nav" aria-label="Main">
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="index.html#about">About</a></li>
+          <li><a href="index.html#events">Events</a></li>
+          <li><a href="semester-project.html" aria-current="page">Semester Project</a></li>
+          <li><a href="certifications.html">Certifications</a></li>
+          <li><a href="leadership.html">Leadership</a></li>
+          <li><a class="nav-cta" href="index.html#get-involved">Get Involved</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <!-- ============ PAGE HERO ============ -->
+    <section class="hero page-hero" aria-labelledby="page-title">
+      <div class="container">
+        <p class="eyebrow eyebrow-light">Semester Projects</p>
+        <h1 id="page-title">Real clients. <span class="accent">Real systems.</span></h1>
+        <p class="hero-tagline">Each semester, our members team up to solve a real operations problem for a Boston-area nonprofit.</p>
+      </div>
+    </section>
+
+    <!-- ============ CURRENT PROJECT ============ -->
+    <section class="section" aria-labelledby="current-title">
+      <div class="container">
+        <header class="section-head">
+          <p class="eyebrow">This semester</p>
+          <h2 id="current-title">Current project</h2>
+        </header>
+
+        <article class="project project-feature" aria-labelledby="tfp-title">
+          <div class="project-logo">
+            <img src="assets/the-food-project-logo.png" alt="The Food Project logo" width="1470" height="1381">
+          </div>
+          <div class="project-body">
+            <p class="project-term">Fall 2026 <span class="status-pill">In progress</span></p>
+            <h3 id="tfp-title">The Food Project</h3>
+            <p class="project-client">A Greater Boston nonprofit that runs farms, gardens, farmers markets, and youth programs. It has grown more than 5 million pounds of produce and built over 1,400 raised-bed gardens.</p>
+
+            <h4>The challenge</h4>
+            <p>Much of TFP's operational knowledge lives with individual staff, not in documented systems. It also has no long-term plan for its facilities, including whether to sell its 5,000&nbsp;sq.&nbsp;ft. headquarters.</p>
+
+            <h4>What we're doing</h4>
+            <ul class="checklist" role="list">
+              <li><svg aria-hidden="true"><use href="#icon-check"/></svg><span><strong>Process standardization:</strong> process maps, SOPs, and recommendations for digitizing resources.</span></li>
+              <li><svg aria-hidden="true"><use href="#icon-check"/></svg><span><strong>Capital planning:</strong> a building assessment, maintenance roadmap, and decision matrix for future investments.</span></li>
+            </ul>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- ============ WHY JOIN ============ -->
+    <section class="section section-alt" aria-labelledby="why-title">
+      <div class="container">
+        <header class="section-head">
+          <p class="eyebrow">Why join</p>
+          <h2 id="why-title">Why join a project</h2>
+        </header>
+
+        <ul class="card-grid why-grid" role="list">
+          <li class="card">
+            <span class="highlight-icon"><svg aria-hidden="true"><use href="#icon-building"/></svg></span>
+            <h3>Real impact</h3>
+            <p>Your recommendations go to Boston nonprofits that put them to use.</p>
+          </li>
+          <li class="card">
+            <span class="highlight-icon"><svg aria-hidden="true"><use href="#icon-workflow"/></svg></span>
+            <h3>Hands-on IE</h3>
+            <p>Use DMAIC, process mapping, decision matrices, and cost models on real problems.</p>
+          </li>
+          <li class="card">
+            <span class="highlight-icon"><svg aria-hidden="true"><use href="#icon-presentation"/></svg></span>
+            <h3>Client experience</h3>
+            <p>Present your work to leadership and get a story to tell in co-op interviews.</p>
+          </li>
+          <li class="card">
+            <span class="highlight-icon"><svg aria-hidden="true"><use href="#icon-users"/></svg></span>
+            <h3>Mentorship</h3>
+            <p>Each team is led by an upperclassman Project Manager.</p>
+          </li>
+        </ul>
+
+        <div class="cta-band">
+          <p>We take on a new project every semester. Keep an eye out for the next one!</p>
+          <a class="btn btn-primary" href="https://www.instagram.com/iise_neu/?hl=en" target="_blank" rel="noopener noreferrer">Follow for updates<span class="visually-hidden"> on Instagram (opens in a new tab)</span></a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ PAST PROJECTS ============ -->
+    <section class="section" aria-labelledby="past-title">
+      <div class="container">
+        <header class="section-head">
+          <p class="eyebrow">Our track record</p>
+          <h2 id="past-title">Past projects</h2>
+        </header>
+
+        <div class="past-grid">
+          <article class="project" aria-labelledby="c2c-title">
+            <img class="project-card-logo" src="assets/cradles-to-crayons-logo.png" alt="Cradles to Crayons logo" width="1021" height="551" loading="lazy">
+            <p class="project-term">Spring 2026</p>
+            <h3 id="c2c-title">Cradles to Crayons</h3>
+            <p class="project-client">A nonprofit working to end clothing insecurity for children.</p>
+
+            <h4>The challenge</h4>
+            <p>Its 36,663&nbsp;sq.&nbsp;ft. warehouse was on track to exceed Boston's BERDO emissions caps by 2035, and inventory was tracked by hand in a way that couldn't scale.</p>
+
+            <h4>What we did</h4>
+            <ul class="checklist" role="list">
+              <li><svg aria-hidden="true"><use href="#icon-check"/></svg><span>A phased emissions roadmap with three upgrades to meet the 2035 and 2040 targets, each paired with rebates and incentives.</span></li>
+              <li><svg aria-hidden="true"><use href="#icon-check"/></svg><span>A phone-based inventory app and Excel dashboard that takes volunteers under 5 minutes a day.</span></li>
+            </ul>
+          </article>
+
+          <article class="project" aria-labelledby="sfh-title">
+            <img class="project-card-logo" src="assets/st-francis-house-logo.png" alt="St. Francis House logo" width="1213" height="640" loading="lazy">
+            <p class="project-term">Fall 2025</p>
+            <h3 id="sfh-title">St. Francis House</h3>
+            <p class="project-client">A Boston day shelter serving about 435 guests a day.</p>
+
+            <h4>The challenge</h4>
+            <p>It was renovating its building while keeping full service running for its guests.</p>
+
+            <h4>What we did</h4>
+            <ul class="checklist" role="list">
+              <li><svg aria-hidden="true"><use href="#icon-check"/></svg><span>Redesigned the kitchen and serving line into fixed stations so volunteers never cross paths.</span></li>
+              <li><svg aria-hidden="true"><use href="#icon-check"/></svg><span>Planned guest flow for the new space and built a cost model for a new 24-hour to-go station.</span></li>
+            </ul>
+          </article>
+
+          <article class="project" aria-labelledby="dod-title">
+            <img class="project-card-logo is-square" src="assets/department-of-defense-seal.webp" alt="Department of Defense seal" width="250" height="250" loading="lazy">
+            <p class="project-term">Spring 2025</p>
+            <h3 id="dod-title">211th Military Police Battalion</h3>
+            <p class="project-client">A Department of Defense military police battalion.</p>
+
+            <h4>The challenge</h4>
+            <p>Equipment audits were slow and tedious, items were hard to find quickly in an emergency, and newly purchased shipping containers sat unused.</p>
+
+            <h4>What we did</h4>
+            <ul class="checklist" role="list">
+              <li><svg aria-hidden="true"><use href="#icon-check"/></svg><span>Mapped the building's current state and proposed a new layout that groups high-priority items for faster access and puts empty containers and lockers to use.</span></li>
+              <li><svg aria-hidden="true"><use href="#icon-check"/></svg><span>Combined scattered monthly Excel files into one master sheet that links each item's serial number to its location, ready for audits.</span></li>
+            </ul>
+          </article>
+
+          <article class="project" aria-labelledby="bdt-title">
+            <img class="project-card-logo is-square" src="assets/boston-duck-tours-logo.webp" alt="Boston Duck Tours logo" width="1024" height="1024" loading="lazy">
+            <p class="project-term">Spring 2025</p>
+            <h3 id="bdt-title">Boston Duck Tours</h3>
+            <p class="project-client">A Boston sightseeing company that runs tours by land and water.</p>
+
+            <h4>The challenge</h4>
+            <p>Tours regularly ran past their 80–90 minute target, pushing back later departures and lengthening shifts for drivers and guides.</p>
+
+            <h4>What we did</h4>
+            <ul class="checklist" role="list">
+              <li><svg aria-hidden="true"><use href="#icon-check"/></svg><span>Analyzed tour data from all three departure points and traffic along the routes, showing that only a shorter route would save time.</span></li>
+              <li><svg aria-hidden="true"><use href="#icon-check"/></svg><span>Recommended ways to use Samsara, the company's existing fleet software, to track stop times and anticipate delays.</span></li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div class="footer-brand">
+        <a class="footer-logo" href="index.html">
+          <img src="assets/iise-logo.png" alt="IISE Northeastern University Chapter, home" width="72" height="69" loading="lazy">
+        </a>
+        <p>Northeastern University Chapter of IISE</p>
+      </div>
+
+      <nav class="footer-nav" aria-label="Footer">
+        <ul>
+          <li><a href="events.html">Events</a></li>
+          <li><a href="leadership.html">Leadership</a></li>
+          <li><a href="semester-project.html" aria-current="page">Semester Project</a></li>
+          <li><a href="certifications.html">Certifications</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </nav>
+
+      <ul class="social" role="list">
+        <li><a href="https://www.instagram.com/iise_neu/?hl=en" target="_blank" rel="noopener noreferrer" aria-label="IISE Northeastern on Instagram (opens in a new tab)"><svg aria-hidden="true"><use href="#icon-instagram"/></svg></a></li>
+        <li><a href="https://www.linkedin.com/school/iise-northeastern-university/posts/?feedView=all" target="_blank" rel="noopener noreferrer" aria-label="IISE Northeastern on LinkedIn (opens in a new tab)"><svg aria-hidden="true"><use href="#icon-linkedin"/></svg></a></li>
+        <li><a href="https://app.slack.com/client/T01AXDNAVRQ" target="_blank" rel="noopener noreferrer" aria-label="IISE Northeastern Slack workspace (opens in a new tab)"><svg aria-hidden="true"><use href="#icon-slack"/></svg></a></li>
+        <li><a href="mailto:iisenortheastern@gmail.com" aria-label="Email IISE Northeastern"><svg aria-hidden="true"><use href="#icon-mail"/></svg></a></li>
+      </ul>
+    </div>
+    <div class="container footer-bottom">
+      <p>&copy; <span data-year>2026</span> IISE Northeastern University Chapter. All rights reserved.</p>
+    </div>
+  </footer>
+</body>
+</html>
