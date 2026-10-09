@@ -2,7 +2,7 @@
    IISE Northeastern: site script
    1. Events: home page + events.html (edit the EVENTS array below)
    2. Mobile menu toggle
-   3. Cross-page anchor alignment
+   3. Cross-page anchor alignment + clean URLs
    4. Footer year
    ========================================================= */
 
@@ -255,6 +255,15 @@ function scrollToHash() {
   if (target) target.scrollIntoView({ behavior: "instant" });
 }
 
+/* ---------- Clean URLs ----------
+ * Old links and bookmarks may still use /events.html or /index.html.
+ * Show the clean address (/events, /) without reloading the page. */
+function cleanUrl() {
+  if (location.protocol === "file:") return;
+  const clean = location.pathname.replace(/\/index\.html$/, "/").replace(/\.html$/, "");
+  if (clean !== location.pathname) history.replaceState(null, "", clean + location.search + location.hash);
+}
+
 /* ---------- Footer year ---------- */
 function setYear() {
   document.querySelectorAll("[data-year]").forEach((node) => {
@@ -262,6 +271,7 @@ function setYear() {
   });
 }
 
+cleanUrl();
 renderEvents();
 initNav();
 setYear();
