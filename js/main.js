@@ -107,13 +107,12 @@ const EVENTS = [
     location: "IV 022",
     description: "Get advice from upperclassmen on picking next semester's classes.",
   },
-  // TODO: Add the topic for the second Skills workshop
   {
     date: "2026-11-09",
     title: "Skills Workshop",
     time: "6:00 – 7:00 pm",
     location: "IV 022",
-    description: "Topic coming soon.",
+    description: "A consulting case interview workshop: how case interviews work and how to practice them.",
   },
   {
     date: "2026-11-16",
