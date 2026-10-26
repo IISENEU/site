@@ -399,6 +399,8 @@ function initGlass() {
 
   // Highlight that follows the pointer across controls
   document.addEventListener("pointermove", (e) => {
+    const hero = e.target.closest(".hero");
+    if (hero) hero.style.setProperty("--bx", e.clientX - hero.getBoundingClientRect().left + "px");   // hero bar highlight
     const control = e.target.closest(".btn, .nav-cta, .contact-btn, .social a, .card, .project, .cert-pricing, .cta-band, .involved-links");
     if (!control) return;
     const r = control.getBoundingClientRect();
