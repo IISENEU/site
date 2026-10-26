@@ -2036,6 +2036,7 @@ a { color: var(--red); }
   .site-header .site-nav.is-open li:nth-child(5) { animation-delay: .16s; }
   .site-header .site-nav.is-open li:nth-child(6) { animation-delay: .19s; }
   .site-header .site-nav.is-open li:nth-child(7) { animation-delay: .22s; }
+  .site-header .site-nav.is-open li:nth-child(8) { animation-delay: .25s; }
 
   /* Dim and soften the page behind the open menu; tapping it closes the menu */
   body::before {
@@ -2120,6 +2121,7 @@ a { color: var(--red); }
     padding: 10px;
     border: 1px solid rgba(255, 255, 255, 0.08);
     background:
+      var(--globe-svg) right -110px top -70px / 360px 360px no-repeat,   /* bigger globe behind the menu */
       radial-gradient(420px 240px at 0% 0%, rgba(206, 17, 38, 0.26), transparent 70%),
       linear-gradient(160deg, #3A3934 0%, var(--charcoal) 50%, #1F1E1B 100%);
     box-shadow:
@@ -2262,13 +2264,12 @@ a { color: var(--red); }
   .event { min-height: 0; padding: 26px; }
 }
 
-/* Faint globe in the top corner, like the one in the hero: an outline and two
-   lines of longitude. Shared by every dark box (meeting card, banners, pricing). */
+/* Faint globe in the top corner: the same drawing as the logo, hero, and footer
+   globes (outline, meridians, center line, latitudes). Shared by every dark box
+   (meeting card, banners, pricing, phone menu). */
 :root {
-  --globe-lines:
-    radial-gradient(circle closest-side, transparent calc(100% - 1.5px), rgba(255, 255, 255, 0.09) calc(100% - 1px), transparent 100%) right -60px top -60px / 220px 220px no-repeat,
-    radial-gradient(ellipse 30% 50% at 50% 50%, transparent calc(100% - 1.5px), rgba(255, 255, 255, 0.07) calc(100% - 1px), transparent 100%) right -60px top -60px / 220px 220px no-repeat,
-    radial-gradient(ellipse 62% 50% at 50% 50%, transparent calc(100% - 1.5px), rgba(255, 255, 255, 0.06) calc(100% - 1px), transparent 100%) right -60px top -60px / 220px 220px no-repeat;
+  --globe-svg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200' fill='none' stroke='%23fff' stroke-opacity='.12' stroke-width='1.1'%3E%3Ccircle cx='100' cy='100' r='92'/%3E%3Cellipse cx='100' cy='100' rx='46' ry='92'/%3E%3Cellipse cx='100' cy='100' rx='80' ry='92'/%3E%3Cpath d='M100 8v184M12 72h176M12 128h176M28 44q72 26 144 0M28 156q72-26 144 0'/%3E%3C/svg%3E");
+  --globe-lines: var(--globe-svg) right -60px top -60px / 220px 220px no-repeat;
 }
 
 /* ---------- Meeting card ----------
@@ -2529,7 +2530,7 @@ html.anim .live-dot::after {
 
 /* Globe on the left instead, where the footer's globe sits right below the box */
 .cta-band.globe-left {
-  background-position: left -60px top -60px, left -60px top -60px, left -60px top -60px, 0 0, 0 0;
+  background-position: left -60px top -60px, 0 0, 0 0;
 }
 @media (prefers-reduced-transparency: reduce), (prefers-contrast: more) {
   .cta-band, .section-alt .cta-band, .cert-pricing { background: var(--charcoal); }
@@ -2569,4 +2570,9 @@ html.anim .live-dot::after {
     -webkit-backdrop-filter: none;
     backdrop-filter: none;
   }
+}
+
+/* Contact lives in the phone menu only; the desktop bar has no room for it */
+@media (min-width: 768px) {
+  .nav-menu-only { display: none; }
 }
