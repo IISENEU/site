@@ -1039,11 +1039,11 @@ a { color: var(--red); }
    follows the pointer.
    ========================================================= */
 :root {
-  --glass-blur: blur(24px) saturate(1.4);
-  --glass-light: rgba(255, 255, 255, 0.62);
+  --glass-blur: blur(28px) saturate(1.5);
+  --glass-light: rgba(255, 255, 255, 0.5);
   --glass-light-strong: rgba(255, 255, 255, 0.86);  /* text-heavy panels */
   --glass-panel: #fff;                               /* menu panel: fully opaque so page text never shows through */
-  --glass-dark: rgba(30, 29, 26, 0.48);
+  --glass-dark: rgba(30, 29, 26, 0.36);
   --glass-edge-light: rgba(255, 255, 255, 0.7);
   --glass-edge-dark: rgba(255, 255, 255, 0.16);
   --red-on-dark: #FF6170;                            /* 4.8:1 on charcoal */
