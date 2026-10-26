@@ -2550,3 +2550,23 @@ html.anim .live-dot::after {
 .not-found { min-height: 64vh; display: flex; align-items: center; }
 .not-found .container { width: 100%; }
 .page-hero .hero-actions { margin-top: 32px; }
+
+/* ---------- Scroll reveal: smooth on every box ----------
+ * Cards and buttons set their own transition (for hover), which used to replace the
+ * reveal's, so their opacity snapped from 0 to 1 instead of fading. This wins over
+ * those while a box is arriving; the reveal class is removed afterwards. */
+.anim .reveal {
+  transition: opacity .6s ease, transform .7s cubic-bezier(.2, .8, .2, 1);
+  will-change: opacity, transform;
+}
+/* Phones: skip the frosted blur behind cards. They're nearly opaque anyway, and the
+   blur is what makes fading them in while scrolling stutter. */
+@media (max-width: 767.98px) {
+  .card,
+  .project,
+  .contact-btn,
+  .section-alt .cta-band {
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+}

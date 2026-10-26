@@ -709,10 +709,15 @@ function initReveal() {
   const groups = document.querySelectorAll(".card-grid, .people, .past-grid, .contact-list");
   const singles = document.querySelectorAll(".project-feature, .cert, .involved-copy, .partners, .section-head, .people-heading");
   const items = [];
-  groups.forEach((g) => [...g.children].forEach((child, i) => {
-    child.style.transitionDelay = (i % 5) * 70 + "ms";   // a short stagger across each row
-    items.push(child);
-  }));
+  groups.forEach((g) => {
+    // Stagger across a row only: in a single column (phones) each box arrives on its own, so no delay
+    const kids = [...g.children];
+    const perRow = kids.filter((c) => c.offsetTop === kids[0]?.offsetTop).length || 1;
+    kids.forEach((child, i) => {
+      child.style.transitionDelay = (i % perRow) * 70 + "ms";
+      items.push(child);
+    });
+  });
   singles.forEach((el) => items.push(el));
   items.forEach((el) => el.classList.add("reveal"));
 
@@ -728,7 +733,7 @@ function initReveal() {
         el.style.transitionDelay = "";
       }, 900);
     });
-  }, { threshold: 0.12 });
+  }, { threshold: 0, rootMargin: "0px 0px -32px 0px" });   // start as soon as a box edges into view
   items.forEach((el) => observer.observe(el));
 }
 
