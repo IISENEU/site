@@ -1198,3 +1198,84 @@ a { color: var(--red); }
   .nav-lens { transition: opacity .01ms; }
   .btn:active, .site-nav .nav-cta:active { transform: none; }
 }
+
+/* ---------- Glass, round 2 ---------- */
+
+/* Hero "Upcoming events": clear glass (Apple's variant for controls over rich backgrounds) */
+.btn-ghost {
+  background: rgba(255, 255, 255, 0.08);
+  -webkit-backdrop-filter: blur(12px) saturate(1.4);
+  backdrop-filter: blur(12px) saturate(1.4);
+  border-color: rgba(255, 255, 255, 0.45);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25);
+}
+.btn-ghost:hover {
+  background: rgba(255, 255, 255, 0.16);
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.75);
+}
+
+/* Primary buttons: a specular top edge and a soft glow on hover */
+.btn-primary,
+.site-nav .nav-cta { box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.28); }
+.btn-primary:hover,
+.site-nav .nav-cta:hover { box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.28), 0 8px 20px rgba(206, 17, 38, 0.28); }
+
+/* Cards: a light rim that follows the pointer around the edge (content stays solid, no glass) */
+.card,
+.project { position: relative; isolation: isolate; }
+.card::before,
+.project::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  z-index: 1;
+  padding: 1px;
+  border-radius: inherit;
+  background: radial-gradient(220px circle at var(--mx, -999px) var(--my, -999px), rgba(43, 42, 38, 0.5), transparent 70%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity .3s ease;
+  pointer-events: none;
+}
+
+/* Headshots: lift with a soft shadow */
+.person img { transition: transform .35s cubic-bezier(.2, .8, .2, 1), box-shadow .35s ease; }
+
+/* Footer social buttons: glass discs on the dark footer */
+.social a {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.18);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  position: relative;
+  overflow: hidden;
+}
+.social a:hover { background: rgba(255, 255, 255, 0.16); border-color: rgba(255, 255, 255, 0.4); }
+
+/* Hover-only effects stay off touch screens, where hover "sticks" after a tap */
+@media (hover: hover) {
+  .card:hover::before,
+  .project:hover::before { opacity: 1; }
+  .person:hover img {
+    transform: translateY(-4px);
+    box-shadow: 0 16px 32px rgba(43, 42, 38, 0.22);
+  }
+}
+
+/* Gentle fade-up as sections scroll into view (js/main.js initReveal) */
+.reveal {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity .55s ease, transform .55s cubic-bezier(.2, .8, .2, 1);
+}
+.reveal.is-in { opacity: 1; transform: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  .person:hover img { transform: none; }
+  .reveal { opacity: 1; transform: none; transition: none; }
+}
+@media (prefers-reduced-transparency: reduce), (prefers-contrast: more) {
+  .btn-ghost { background: transparent; -webkit-backdrop-filter: none; backdrop-filter: none; border-color: #fff; }
+}

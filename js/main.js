@@ -399,12 +399,43 @@ function initGlass() {
 
   // Highlight that follows the pointer across controls
   document.addEventListener("pointermove", (e) => {
-    const control = e.target.closest(".btn, .nav-cta, .contact-btn");
+    const control = e.target.closest(".btn, .nav-cta, .contact-btn, .social a, .card, .project");
     if (!control) return;
     const r = control.getBoundingClientRect();
     control.style.setProperty("--mx", e.clientX - r.left + "px");
     control.style.setProperty("--my", e.clientY - r.top + "px");
   }, { passive: true });
+}
+
+/* ---------- Reveal on scroll ----------
+ * Cards, headshots, and project panels fade up as they enter the view.
+ * Skipped entirely for people who prefer reduced motion. */
+function initReveal() {
+  if (!("IntersectionObserver" in window) || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  const groups = document.querySelectorAll(".card-grid, .people, .past-grid, .contact-list");
+  const singles = document.querySelectorAll(".project-feature, .cert, .involved-copy, .partners");
+  const items = [];
+  groups.forEach((g) => [...g.children].forEach((child, i) => {
+    child.style.transitionDelay = (i % 5) * 70 + "ms";   // a short stagger across each row
+    items.push(child);
+  }));
+  singles.forEach((el) => items.push(el));
+  items.forEach((el) => el.classList.add("reveal"));
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (!entry.isIntersecting) return;
+      const el = entry.target;
+      el.classList.add("is-in");
+      observer.unobserve(el);
+      // Hand control back to hover effects once the entrance is done
+      setTimeout(() => {
+        el.classList.remove("reveal", "is-in");
+        el.style.transitionDelay = "";
+      }, 900);
+    });
+  }, { threshold: 0.12 });
+  items.forEach((el) => observer.observe(el));
 }
 
 /* ---------- Footer year ---------- */
@@ -420,5 +451,6 @@ initNav();
 initSectionLinks();
 initEmailLinks();
 initGlass();
+initReveal();
 setYear();
 window.addEventListener("load", scrollToInitialHash);
