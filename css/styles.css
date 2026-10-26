@@ -2546,10 +2546,6 @@ html.anim .live-dot::after {
 .contact-address { margin: 14px 0 0; font-size: 0.95rem; color: var(--muted); }
 .involved > .meeting-card { margin-top: 0; }   /* meeting card as a column of its own */
 
-/* ---------- Certifications: past courses ---------- */
-.cert-past { max-width: 760px; }
-.cert-past p + p { margin-top: 10px; }
-
 /* ---------- Page not found ---------- */
 .not-found { min-height: 64vh; display: flex; align-items: center; }
 .not-found .container { width: 100%; }
