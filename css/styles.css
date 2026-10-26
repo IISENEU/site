@@ -1867,3 +1867,17 @@ a { color: var(--red); }
     radial-gradient(56px circle at var(--gx, 50%) var(--gy, 0%), rgba(255, 255, 255, 0.7), transparent 70%),
     linear-gradient(180deg, rgba(255, 255, 255, 0.6) 0%, transparent 52%); }
 }
+
+/* "Stay connected" panel: raised like the cards. A soft top-to-bottom tint, a bright
+   top edge, a hairline outline, and layered shadows so it sits above the page while
+   the contact buttons sit on top of it. */
+.involved-links {
+  background: linear-gradient(180deg, #F9F9F8 0%, #EFEEEB 100%);
+  box-shadow:
+    0 0 0 1px rgba(43, 42, 38, 0.06),
+    0 1px 2px rgba(43, 42, 38, 0.05),
+    0 10px 28px -8px rgba(43, 42, 38, 0.14),
+    0 30px 60px -30px rgba(43, 42, 38, 0.2),
+    inset 0 1px 0 #fff,
+    inset 0 -1px 0 rgba(43, 42, 38, 0.04);
+}
