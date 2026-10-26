@@ -34,8 +34,8 @@
   <!-- Turn on entrance/scroll animation unless the visitor prefers reduced motion (set before paint to avoid a flash) -->
   <script>if (!matchMedia("(prefers-reduced-motion: reduce)").matches) document.documentElement.classList.add("anim");</script>
   <!-- Bump ?v= on both lines whenever styles.css or main.js change, so browsers fetch the new files -->
-  <link rel="stylesheet" href="css/styles.css?v=202610261302">
-  <script src="js/main.js?v=202610261302" defer></script>
+  <link rel="stylesheet" href="css/styles.css?v=202610261310">
+  <script src="js/main.js?v=202610261310" defer></script>
 </head>
 <body id="top">
   <!-- Icon sprite: referenced below with <use href="#icon-…">. Shapes based on Lucide (ISC license). -->
@@ -50,6 +50,10 @@
     <symbol id="icon-briefcase" viewBox="0 0 24 24"><rect width="20" height="14" x="2" y="7" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></symbol>
     <symbol id="icon-link" viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></symbol>
     <symbol id="icon-users" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></symbol>
+    <symbol id="icon-home" viewBox="0 0 24 24"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V20a1 1 0 0 0 1 1h4v-6h4v6h4a1 1 0 0 0 1-1V9.5"/></symbol>
+    <symbol id="icon-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></symbol>
+    <symbol id="icon-layers" viewBox="0 0 24 24"><path d="m12 2 9 5-9 5-9-5 9-5Z"/><path d="m3 12 9 5 9-5"/><path d="m3 17 9 5 9-5"/></symbol>
+    <symbol id="icon-award" viewBox="0 0 24 24"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></symbol>
     <symbol id="icon-arrow" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></symbol>
   </svg>
 
@@ -69,14 +73,24 @@
 
       <nav id="site-nav" class="site-nav" aria-label="Main">
         <ul>
-          <li><a href="./">Home</a></li>
-          <li><a href="./#about">About</a></li>
-          <li><a href="./#events">Events</a></li>
-          <li><a href="semester-project">Semester Project</a></li>
-          <li><a href="certifications">Certifications</a></li>
-          <li><a href="leadership" aria-current="page">Leadership</a></li>
+          <li><a href="./"><svg class="nav-ico" aria-hidden="true"><use href="#icon-home"/></svg><span>Home</span></a></li>
+          <li><a href="./#about"><svg class="nav-ico" aria-hidden="true"><use href="#icon-info"/></svg><span>About</span></a></li>
+          <li><a href="./#events"><svg class="nav-ico" aria-hidden="true"><use href="#icon-calendar"/></svg><span>Events</span></a></li>
+          <li><a href="semester-project"><svg class="nav-ico" aria-hidden="true"><use href="#icon-layers"/></svg><span>Semester Project</span></a></li>
+          <li><a href="certifications"><svg class="nav-ico" aria-hidden="true"><use href="#icon-award"/></svg><span>Certifications</span></a></li>
+          <li><a href="leadership" aria-current="page"><svg class="nav-ico" aria-hidden="true"><use href="#icon-users"/></svg><span>Leadership</span></a></li>
           <li><a class="nav-cta" href="./#get-involved">Get Involved</a></li>
         </ul>
+        <!-- Phone menu only: meeting info and socials -->
+        <div class="nav-extras">
+          <p class="nav-meet"><svg aria-hidden="true"><use href="#icon-calendar"/></svg>General meetings: Mondays, 6–7 pm · IV 022</p>
+          <ul class="social" role="list">
+            <li><a href="https://www.instagram.com/iise_neu/?hl=en" target="_blank" rel="noopener noreferrer" aria-label="IISE Northeastern on Instagram (opens in a new tab)"><svg aria-hidden="true"><use href="#icon-instagram"/></svg></a></li>
+            <li><a href="https://www.linkedin.com/school/iise-northeastern-university/posts/?feedView=all" target="_blank" rel="noopener noreferrer" aria-label="IISE Northeastern on LinkedIn (opens in a new tab)"><svg aria-hidden="true"><use href="#icon-linkedin"/></svg></a></li>
+            <li><a href="https://app.slack.com/client/T01AXDNAVRQ" target="_blank" rel="noopener noreferrer" aria-label="IISE Northeastern Slack workspace (opens in a new tab)"><svg aria-hidden="true"><use href="#icon-slack"/></svg></a></li>
+            <li><a href="mailto:iisenortheastern@gmail.com" aria-label="Email IISE Northeastern"><svg aria-hidden="true"><use href="#icon-mail"/></svg></a></li>
+          </ul>
+        </div>
       </nav>
     </div>
   </header>

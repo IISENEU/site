@@ -2108,3 +2108,126 @@ a { color: var(--red); }
   .person-badge { transition: opacity .2s ease; }
   .person-link:hover .person-badge { transform: none; }
 }
+
+/* ---------- Phone menu, dark ----------
+   The menu panel matches the dark hero and footer: charcoal shading with a red glow,
+   a glass tile with an icon beside each page, the current page's tile filled red, and
+   meeting info plus socials at the bottom. Icons and extras are hidden on desktop. */
+.nav-ico,
+.nav-extras { display: none; }
+
+@media (max-width: 767.98px) {
+  .site-header .site-nav {
+    padding: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background:
+      radial-gradient(420px 240px at 0% 0%, rgba(206, 17, 38, 0.26), transparent 70%),
+      linear-gradient(160deg, #3A3934 0%, var(--charcoal) 50%, #1F1E1B 100%);
+    box-shadow:
+      0 24px 60px -16px rgba(0, 0, 0, 0.6),
+      0 0 0 1px rgba(0, 0, 0, 0.2),
+      inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  }
+
+  .site-header .site-nav.is-open a:not(.nav-cta) {
+    justify-content: flex-start;
+    gap: 14px;
+    padding: 10px 12px;
+    color: rgba(255, 255, 255, 0.92);
+  }
+  .site-header .site-nav.is-open a:not(.nav-cta) span { flex: 1; }
+  .site-header .site-nav.is-open a:not(.nav-cta)::after { opacity: 0.3; }
+
+  .nav-ico {
+    display: block;
+    flex: none;
+    width: 36px; height: 36px;
+    padding: 8px;
+    border-radius: 11px;
+    background: rgba(255, 255, 255, 0.07);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12), 0 0 0 1px rgba(255, 255, 255, 0.06);
+    fill: none; stroke: rgba(255, 255, 255, 0.85); stroke-width: 2;
+    stroke-linecap: round; stroke-linejoin: round;
+    transition: background-color .2s ease;
+  }
+
+  .site-header .site-nav.is-open a:not(.nav-cta):hover,
+  .site-header .site-nav.is-open a:not(.nav-cta):active {
+    background: rgba(255, 255, 255, 0.06);
+    color: #fff;
+  }
+  .site-header .site-nav.is-open a:not(.nav-cta):hover .nav-ico { background: rgba(255, 255, 255, 0.12); }
+
+  .site-header .site-nav.is-open a[aria-current="page"]:not(.nav-cta) {
+    background: linear-gradient(90deg, rgba(206, 17, 38, 0.24), rgba(206, 17, 38, 0.06));
+    color: #fff;
+    font-weight: 600;
+  }
+  .site-header .site-nav.is-open a[aria-current="page"]:not(.nav-cta) .nav-ico {
+    background: linear-gradient(160deg, #E8364A, var(--red-dark));
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3), 0 6px 14px -4px rgba(206, 17, 38, 0.6);
+    stroke: #fff;
+  }
+  .site-header .site-nav.is-open a[aria-current="page"]:not(.nav-cta)::after { opacity: 0.8; }
+
+  .site-header .site-nav .nav-cta {
+    margin-top: 10px;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.28), 0 10px 22px -8px rgba(206, 17, 38, 0.6);
+  }
+
+  .nav-extras {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin: 12px 2px 2px;
+    padding-top: 14px;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+  }
+  .nav-meet {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0;
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.66);
+  }
+  .nav-meet svg {
+    flex: none;
+    width: 15px; height: 15px;
+    fill: none; stroke: rgba(255, 255, 255, 0.66); stroke-width: 2;
+    stroke-linecap: round; stroke-linejoin: round;
+  }
+  .nav-extras .social { gap: 8px; }
+  .nav-extras .social a { width: 36px; height: 36px; }
+  .nav-extras .social svg { width: 17px; height: 17px; }
+
+  .site-header .site-nav.is-open .nav-extras { animation: menu-item-in .38s cubic-bezier(.2, .8, .2, 1) .25s both; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .site-header .site-nav.is-open .nav-extras { animation: none; }
+}
+@media (max-width: 767.98px) {
+  /* Keep the menu's row styles off the social buttons in its extras row */
+  .site-header .site-nav .nav-extras .social { flex-direction: row; align-items: center; gap: 8px; padding: 0; }
+  .site-header .site-nav.is-open .nav-extras li { animation: none; }
+  .site-header .site-nav.is-open .nav-extras .social a,
+  .site-header .site-nav.is-open .nav-extras .social a:hover {
+    display: grid;
+    place-items: center;
+    justify-content: center;
+    gap: 0;
+    width: 36px; height: 36px;
+    margin: 0;
+    padding: 0;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.06);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12);
+    color: #fff;
+    font-size: inherit;
+  }
+  .site-header .site-nav.is-open .nav-extras .social a:hover { background: rgba(255, 255, 255, 0.16); border-color: rgba(255, 255, 255, 0.4); }
+  .site-header .site-nav.is-open .nav-extras .social a::after { display: none; }
+}
