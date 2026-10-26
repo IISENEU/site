@@ -1728,3 +1728,18 @@ a { color: var(--red); }
   }
 }
 .site-footer { padding-bottom: env(safe-area-inset-bottom, 0px); }
+
+/* Fixed strip along the very top edge. On iPhone it sits behind the status bar, and
+   Safari tints its own bar from it, so it follows the content: charcoal over the hero
+   and footer, white over white sections (html.edge-light, set in js/main.js).
+   Elsewhere it is a 1px line that matches whatever is beneath it. */
+.edge-tint {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 99;                                          /* below the floating header */
+  height: max(1px, env(safe-area-inset-top, 0px));
+  background: var(--charcoal);
+  pointer-events: none;
+  transition: background-color .25s ease;
+}
+html.edge-light .edge-tint { background: var(--bg); }

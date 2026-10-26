@@ -362,7 +362,8 @@ function initGlass() {
     // Safari on iPhone paints the strip behind the status bar with the page background.
     // Match it to what is under the top edge: dark over the hero/footer (and at the very
     // bottom, so the bounce there stays dark), white over white sections.
-    const atBottom = window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 80;
+    const docH = document.documentElement.scrollHeight;
+    const atBottom = docH > window.innerHeight + 80 && window.scrollY + window.innerHeight >= docH - 80;
     const darkAtTop = atBottom || darkSurfaces.some((el) => {
       const r = el.getBoundingClientRect();
       return r.top <= 1 && r.bottom >= 1;
