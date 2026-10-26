@@ -346,8 +346,6 @@ function initGlass() {
 
   // Adaptive appearance: check what is scrolling under the middle of the bar
   const darkSurfaces = [...document.querySelectorAll(".hero, .site-footer")];
-  const themeMeta = document.querySelector('meta[name="theme-color"]');
-  let lastDarkAtTop = true;
   let queued = false;
   const update = () => {
     queued = false;
@@ -358,21 +356,6 @@ function initGlass() {
       return r.top <= y && r.bottom >= y;
     });
     header.classList.toggle("on-dark", onDark);
-
-    // Safari on iPhone paints the strip behind the status bar with the page background.
-    // Match it to what is under the top edge: dark over the hero/footer (and at the very
-    // bottom, so the bounce there stays dark), white over white sections.
-    const docH = document.documentElement.scrollHeight;
-    const atBottom = docH > window.innerHeight + 80 && window.scrollY + window.innerHeight >= docH - 80;
-    const darkAtTop = atBottom || darkSurfaces.some((el) => {
-      const r = el.getBoundingClientRect();
-      return r.top <= 1 && r.bottom >= 1;
-    });
-    if (darkAtTop !== lastDarkAtTop) {
-      lastDarkAtTop = darkAtTop;
-      document.documentElement.classList.toggle("edge-light", !darkAtTop);
-      if (themeMeta) themeMeta.setAttribute("content", darkAtTop ? "#2B2A26" : "#FFFFFF");
-    }
   };
   const queue = () => {
     if (!queued) { queued = true; requestAnimationFrame(update); }
