@@ -399,7 +399,7 @@ function initGlass() {
 
   // Highlight that follows the pointer across controls
   document.addEventListener("pointermove", (e) => {
-    const control = e.target.closest(".btn, .nav-cta, .contact-btn, .social a, .card, .project, .cert-pricing");
+    const control = e.target.closest(".btn, .nav-cta, .contact-btn, .social a, .card, .project, .cert-pricing, .cta-band, .involved-links");
     if (!control) return;
     const r = control.getBoundingClientRect();
     control.style.setProperty("--mx", e.clientX - r.left + "px");

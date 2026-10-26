@@ -1035,7 +1035,7 @@ a { color: var(--red); }
   --glass-blur: blur(24px) saturate(1.4);
   --glass-light: rgba(255, 255, 255, 0.62);
   --glass-light-strong: rgba(255, 255, 255, 0.86);  /* text-heavy panels */
-  --glass-panel: rgba(255, 255, 255, 0.98);          /* menu inside the bar: browsers can't blur through a glass parent */
+  --glass-panel: #fff;                               /* menu panel: fully opaque so page text never shows through */
   --glass-dark: rgba(30, 29, 26, 0.48);
   --glass-edge-light: rgba(255, 255, 255, 0.7);
   --glass-edge-dark: rgba(255, 255, 255, 0.16);
@@ -1320,4 +1320,93 @@ a { color: var(--red); }
 }
 @media (prefers-reduced-motion: reduce) {
   .cert-pricing:hover { transform: none; }
+}
+
+/* ---------- Glass, round 3 ---------- */
+
+/* Phone menu: the panel is always light, so links stay dark (and turn red on hover) even
+   when the bar above it is in its dark state over the hero */
+@media (max-width: 767.98px) {
+  .site-nav a:not(.nav-cta):hover,
+  .site-header.on-dark .site-nav a:not(.nav-cta):hover,
+  .site-nav.has-lens a:not(.nav-cta):hover { color: var(--red); background: rgba(43, 42, 38, 0.04); }
+  .site-nav a:not(.nav-cta) { margin: 0 -8px; padding-left: 12px; padding-right: 12px; border-radius: 10px; }
+}
+
+/* Hamburger button: a glass disc appears on hover, like the other controls in the bar */
+.nav-toggle { border-radius: 50%; transition: background-color .2s ease; }
+.nav-toggle:hover { background: rgba(43, 42, 38, 0.07); }
+.site-header.on-dark .nav-toggle:hover { background: rgba(255, 255, 255, 0.14); }
+
+/* Call-to-action boxes and the "Stay connected" panel: lift, light rim, soft glow */
+.cta-band,
+.involved-links {
+  position: relative;
+  isolation: isolate;
+  transition: transform .35s cubic-bezier(.2, .8, .2, 1), box-shadow .35s ease;
+}
+.cta-band::before,
+.involved-links::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  padding: 1px;
+  border-radius: inherit;
+  background: radial-gradient(260px circle at var(--mx, -999px) var(--my, -999px), rgba(43, 42, 38, 0.45), transparent 70%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity .3s ease;
+  pointer-events: none;
+}
+.cta-band::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  background: radial-gradient(320px circle at var(--mx, 50%) var(--my, 50%), rgba(206, 17, 38, 0.05), transparent 70%);
+  opacity: 0;
+  transition: opacity .3s ease;
+  pointer-events: none;
+}
+
+/* Event date badges: a glass top edge, and a small pop when the card is hovered */
+.date-badge {
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3), 0 2px 6px rgba(43, 42, 38, 0.15);
+  transition: transform .35s cubic-bezier(.3, 1.35, .45, 1);
+}
+.event-past .date-badge { box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6); }
+
+/* Client logos on project cards scale up a touch with their card */
+.project-card-logo,
+.project-logo img { transition: transform .4s cubic-bezier(.2, .8, .2, 1); }
+
+/* The globe logo tips like it's spinning when you point at it */
+.brand img,
+.footer-logo img { transition: transform .6s cubic-bezier(.3, 1.35, .45, 1), background-color .35s ease; }
+
+@media (hover: hover) {
+  .cta-band:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 18px 40px rgba(43, 42, 38, 0.14);
+  }
+  .cta-band:hover::before,
+  .cta-band:hover::after,
+  .involved-links:hover::before { opacity: 1; }
+  .event:hover .date-badge { transform: scale(1.06) rotate(-2deg); }
+  .project:hover .project-card-logo,
+  .project:hover .project-logo img { transform: scale(1.04); }
+  .brand:hover img,
+  .footer-logo:hover img { transform: rotate(-20deg); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .cta-band:hover,
+  .event:hover .date-badge,
+  .project:hover .project-card-logo,
+  .project:hover .project-logo img,
+  .brand:hover img,
+  .footer-logo:hover img { transform: none; }
 }
