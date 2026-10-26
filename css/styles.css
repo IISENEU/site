@@ -44,10 +44,12 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* The area revealed when you scroll past the top or bottom of the page (the
-   "bounce" on Mac trackpads and phones) shows the html background. Pages with a
-   dark hero also end in the dark footer, so match both ends. */
-html:has(.hero) { background: var(--charcoal); }
+/* The page itself is charcoal and the content area is white. That way everything
+   outside the content (the "bounce" past the top and bottom, the strip behind the
+   iPhone status bar, the space under a short page) matches the dark hero and footer,
+   while the sections inside <main> stay white. Works without :has(), including on iOS. */
+html, body { background: var(--charcoal); }
+main { display: block; background: var(--bg); }
 
 img, svg { display: block; max-width: 100%; }
 
@@ -1050,7 +1052,7 @@ a { color: var(--red); }
 /* Floating bar: content (including the dark hero) runs underneath it */
 .site-header {
   position: fixed;
-  top: 12px;
+  top: calc(12px + env(safe-area-inset-top, 0px));   /* stay below the notch and status bar */
   left: 0; right: 0;
   background: none;
   border: 0;
@@ -1706,3 +1708,22 @@ a { color: var(--red); }
   0%, 8%    { background-position: 0 0, 160% 0; }
   34%, 100% { background-position: 0 0, -60% 0; }
 }
+
+
+/* Edge-to-edge on iPhone (viewport-fit=cover): push the hero content down by the
+   status bar's height and keep content clear of the rounded corners in landscape. */
+.hero-inner { padding-top: calc(156px + env(safe-area-inset-top, 0px)); }
+.page-hero .container { padding-top: calc(140px + env(safe-area-inset-top, 0px)); }
+.container:not(.header-inner) {
+  padding-left: max(24px, env(safe-area-inset-left, 0px));
+  padding-right: max(24px, env(safe-area-inset-right, 0px));
+}
+@media (max-width: 767.98px) {
+  .hero-inner { padding-top: calc(124px + env(safe-area-inset-top, 0px)); }
+  .page-hero .container { padding-top: calc(116px + env(safe-area-inset-top, 0px)); }
+  .container:not(.header-inner) {
+    padding-left: max(16px, env(safe-area-inset-left, 0px));
+    padding-right: max(16px, env(safe-area-inset-right, 0px));
+  }
+}
+.site-footer { padding-bottom: env(safe-area-inset-bottom, 0px); }
