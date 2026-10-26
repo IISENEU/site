@@ -1675,7 +1675,7 @@ a { color: var(--red); }
   z-index: -1;
   background:
     radial-gradient(180px circle at var(--hx, -999px) var(--hy, -999px), var(--glow), transparent 70%),
-    linear-gradient(100deg, transparent 42%, rgba(255, 255, 255, 0.22) 50%, transparent 58%);
+    linear-gradient(100deg, transparent 38%, rgba(255, 255, 255, 0.09) 50%, transparent 62%);   /* faint, soft-edged sweep */
   background-size: 100% 100%, 300% 100%;
   background-repeat: no-repeat;
   background-position: 0 0, 160% 0;
@@ -1696,7 +1696,7 @@ a { color: var(--red); }
   animation: bar-in .9s cubic-bezier(.2, .8, .2, 1) backwards;   /* releases its styles when done */
 }
 .anim .header-inner::after {
-  animation: bar-sweep 11s ease-in-out 1.6s infinite;
+  animation: bar-sweep 14s ease-in-out 1.6s infinite;
 }
 @keyframes bar-in {
   from { opacity: 0; transform: translateY(-18px) scale(0.97); filter: blur(6px); }
@@ -1704,5 +1704,5 @@ a { color: var(--red); }
 }
 @keyframes bar-sweep {
   0%, 8%    { background-position: 0 0, 160% 0; }
-  30%, 100% { background-position: 0 0, -60% 0; }
+  34%, 100% { background-position: 0 0, -60% 0; }
 }
