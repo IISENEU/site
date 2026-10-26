@@ -1279,3 +1279,45 @@ a { color: var(--red); }
 @media (prefers-reduced-transparency: reduce), (prefers-contrast: more) {
   .btn-ghost { background: transparent; -webkit-backdrop-filter: none; backdrop-filter: none; border-color: #fff; }
 }
+
+/* Certification pricing panel: lifts, with a light rim and a soft glow that follow the pointer */
+.cert-pricing {
+  position: relative;
+  isolation: isolate;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  transition: transform .35s cubic-bezier(.2, .8, .2, 1), box-shadow .35s ease;
+}
+.cert-pricing::before,
+.cert-pricing::after {
+  content: "";
+  position: absolute;
+  border-radius: inherit;
+  opacity: 0;
+  transition: opacity .3s ease;
+  pointer-events: none;
+}
+.cert-pricing::before {            /* rim */
+  inset: 0;
+  z-index: 1;
+  padding: 1px;
+  background: radial-gradient(260px circle at var(--mx, -999px) var(--my, -999px), rgba(255, 255, 255, 0.55), transparent 70%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+}
+.cert-pricing::after {             /* glow under the content */
+  inset: 0;
+  z-index: -1;
+  background: radial-gradient(320px circle at var(--mx, 50%) var(--my, 50%), rgba(255, 255, 255, 0.07), transparent 70%);
+}
+@media (hover: hover) {
+  .cert-pricing:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 24px 48px rgba(43, 42, 38, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.14);
+  }
+  .cert-pricing:hover::before,
+  .cert-pricing:hover::after { opacity: 1; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .cert-pricing:hover { transform: none; }
+}
