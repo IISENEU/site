@@ -426,6 +426,12 @@ function initGlass() {
     const r = control.getBoundingClientRect();
     control.style.setProperty("--mx", e.clientX - r.left + "px");
     control.style.setProperty("--my", e.clientY - r.top + "px");
+    if (control.matches(".card, .project")) {                                       // gentle tilt toward the cursor
+      const px = (e.clientX - r.left) / r.width - 0.5;
+      const py = (e.clientY - r.top) / r.height - 0.5;
+      control.style.setProperty("--rx", (-py * 4).toFixed(2) + "deg");
+      control.style.setProperty("--ry", (px * 4).toFixed(2) + "deg");
+    }
   }, { passive: true });
 }
 
