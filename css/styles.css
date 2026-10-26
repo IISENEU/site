@@ -2065,3 +2065,46 @@ a { color: var(--red); }
   .site-header .site-nav.is-open,
   .site-header .site-nav.is-open li { animation: none; }
 }
+
+/* ---------- E-board LinkedIn links ----------
+   Each headshot and name is one link to that person's LinkedIn. On hover the photo
+   lifts (existing), the name turns red, and a small LinkedIn badge rises into the
+   photo's corner. Touch screens show the badge all the time as the cue to tap. */
+.person-link { display: block; color: inherit; text-decoration: none; border-radius: var(--radius); }
+.person-photo { position: relative; display: block; }
+.person-link h4 { transition: color .2s ease; }
+.person-badge {
+  position: absolute;
+  right: 10px; bottom: 24px;                         /* clear of the photo's bottom margin */
+  display: grid;
+  place-items: center;
+  width: 34px; height: 34px;
+  border-radius: 50%;
+  background: #0A66C2;                                /* LinkedIn blue */
+  color: #fff;
+  box-shadow: 0 6px 14px -4px rgba(10, 102, 194, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  opacity: 0;
+  transform: translateY(6px) scale(0.9);
+  transition: opacity .25s ease, transform .3s cubic-bezier(.3, 1.35, .45, 1);
+  pointer-events: none;
+}
+.person-badge svg {
+  width: 17px; height: 17px;
+  fill: none; stroke: currentColor; stroke-width: 2;
+  stroke-linecap: round; stroke-linejoin: round;
+}
+@media (hover: hover) {
+  .person-link:hover h4 { color: var(--red); }
+  .person-link:hover .person-badge { opacity: 1; transform: translateY(-4px); }   /* rides up with the lifted photo */
+}
+@media (hover: none) {
+  .person-badge { opacity: 0.95; transform: none; width: 30px; height: 30px; }
+  .person-badge svg { width: 15px; height: 15px; }
+}
+.person-link:focus-visible { box-shadow: none; }
+.person-link:focus-visible img { box-shadow: 0 0 0 3px #fff, 0 0 0 5px var(--red); }
+.person-link:focus-visible .person-badge { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce) {
+  .person-badge { transition: opacity .2s ease; }
+  .person-link:hover .person-badge { transform: none; }
+}
