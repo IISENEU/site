@@ -1824,3 +1824,46 @@ a { color: var(--red); }
     border-color .1s linear,
     box-shadow .1s linear;
 }
+
+/* ---------- Date badges: glass on hover ----------
+   Hovering an event card turns its date badge into a piece of glass: a glossy top half,
+   a highlight that follows the pointer across the badge (js/main.js sets --gx / --gy),
+   shading for depth, and a glow in the badge's own color. Works for red (general
+   meeting), charcoal (special event), and gray (past) badges. */
+.date-badge {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  transition: transform .35s cubic-bezier(.3, 1.35, .45, 1), box-shadow .3s ease;
+}
+.date-badge > span { position: relative; z-index: 1; }
+.date-badge::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background:
+    radial-gradient(56px circle at var(--gx, 50%) var(--gy, 0%), rgba(255, 255, 255, 0.38), transparent 70%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0.06) 46%, transparent 52%),
+    linear-gradient(160deg, rgba(255, 255, 255, 0.1) 0%, transparent 50%, rgba(0, 0, 0, 0.2) 100%);   /* depth */
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.22);
+  opacity: 0;
+  transition: opacity .3s ease;
+  pointer-events: none;
+}
+@media (hover: hover) {
+  .event:hover .date-badge::before { opacity: 1; }
+  .event:hover .date-badge {
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.35), 0 10px 22px -6px rgba(206, 17, 38, 0.55);
+  }
+  .event-special:hover .date-badge {
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.22), 0 10px 22px -6px rgba(43, 42, 38, 0.6);
+  }
+  .event-past:hover .date-badge {
+    box-shadow: inset 0 1px 0 #fff, 0 8px 18px -8px rgba(43, 42, 38, 0.35);
+  }
+  .event-past .date-badge::before { box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.6); }
+  .event-past .date-badge::before { background:
+    radial-gradient(56px circle at var(--gx, 50%) var(--gy, 0%), rgba(255, 255, 255, 0.7), transparent 70%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.6) 0%, transparent 52%); }
+}

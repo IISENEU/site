@@ -414,6 +414,13 @@ function initGlass() {
     }
     const hero = e.target.closest(".hero");
     if (hero) hero.style.setProperty("--bx", e.clientX - hero.getBoundingClientRect().left + "px");   // hero bar highlight
+    const eventCard = e.target.closest(".event");
+    if (eventCard) {                                                                 // date badge highlight
+      const badge = eventCard.querySelector(".date-badge");
+      const r = badge.getBoundingClientRect();
+      badge.style.setProperty("--gx", e.clientX - r.left + "px");
+      badge.style.setProperty("--gy", e.clientY - r.top + "px");
+    }
     const control = e.target.closest(".btn, .nav-cta, .contact-btn, .social a, .card, .project, .cert-pricing, .cta-band, .involved-links");
     if (!control) return;
     const r = control.getBoundingClientRect();
