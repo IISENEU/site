@@ -1429,3 +1429,89 @@ a { color: var(--red); }
 @media (prefers-reduced-motion: reduce) {
   .hero::after { animation: none; }
 }
+
+/* =========================================================
+   Alive (preview): entrance and scroll motion
+   Everything here is scoped to html.anim, which a tiny inline script sets
+   only when the visitor has NOT asked for reduced motion. Motion plays once,
+   is short, and never blocks clicks.
+   ========================================================= */
+
+/* Title: words rise out of a mask, one after another (js/main.js splits them) */
+.hero h1 .word { display: inline-block; overflow: hidden; vertical-align: top; padding-bottom: 0.06em; margin-bottom: -0.06em; }
+.hero h1 .word-inner { display: inline-block; }
+.anim .hero h1 .word-inner {
+  animation: word-rise .95s cubic-bezier(.2, .8, .2, 1) both;
+  animation-delay: calc(var(--i, 0) * 75ms + 120ms);
+}
+@keyframes word-rise { from { transform: translateY(110%); } to { transform: none; } }
+
+/* Hide the title until it is split, with a fallback in case the script never runs */
+.anim .hero h1:not(.is-split) { opacity: 0; animation: show-late 0s 1.2s forwards; }
+@keyframes show-late { to { opacity: 1; } }
+
+/* Accent underline draws in under the last word, then catches a sheen now and then */
+.hero h1 .accent {
+  box-shadow: none;
+  background-image:
+    linear-gradient(100deg, transparent 40%, rgba(255, 255, 255, 0.6) 50%, transparent 60%),
+    linear-gradient(var(--red), var(--red));
+  background-repeat: no-repeat;
+  background-position: 160% 100%, 0 100%;
+  background-size: 250% 0.14em, 100% 0.14em;
+}
+.anim .hero h1 .accent {
+  animation:
+    underline-draw .8s cubic-bezier(.65, 0, .35, 1) .7s both,
+    underline-sheen 9s ease-in-out 2.5s infinite;
+}
+@keyframes underline-draw {
+  from { background-size: 250% 0.14em, 0% 0.14em; }
+  to   { background-size: 250% 0.14em, 100% 0.14em; }
+}
+@keyframes underline-sheen {
+  0%, 10% { background-position: 160% 100%, 0 100%; }
+  45%, 100% { background-position: -60% 100%, 0 100%; }
+}
+
+/* Supporting hero text follows the title in */
+.anim .hero .eyebrow,
+.anim .hero-tagline,
+.anim .hero-actions { animation: rise .8s cubic-bezier(.2, .8, .2, 1) both; }
+.anim .hero .eyebrow { animation-delay: .05s; }
+.anim .hero-tagline { animation-delay: .55s; }
+.anim .hero-actions { animation-delay: .7s; }
+@keyframes rise { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+
+/* Hero drifts up and fades a little as you scroll past it (js/main.js sets --hero-*) */
+.anim .hero-copy,
+.anim .page-hero .container {
+  transform: translateY(var(--hero-shift, 0px));
+  opacity: var(--hero-fade, 1);
+}
+.anim .hero-globe { transform: translateY(var(--globe-shift, 0px)); }
+
+/* Section headings ease in as they arrive, and the eyebrow rule draws itself */
+.anim .section-head.reveal .eyebrow::before { width: 0; }
+.anim .section-head.reveal.is-in .eyebrow::before { width: 28px; transition: width .6s cubic-bezier(.65, 0, .35, 1) .25s; }
+
+/* Header: a little more compact once you scroll, with a thin reading-progress line */
+.site-header .header-inner::after {
+  content: "";
+  position: absolute;
+  left: 28px; right: 28px; bottom: 0;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--red);
+  transform: scaleX(var(--progress, 0));
+  transform-origin: left;
+  opacity: 0;
+  transition: opacity .3s ease;
+  pointer-events: none;
+}
+.anim .site-header.is-scrolled .header-inner::after { opacity: .85; }
+.anim .header-inner { transition: height .35s cubic-bezier(.2, .8, .2, 1), background-color .35s ease, border-color .35s ease, box-shadow .35s ease; }
+.anim .site-header.is-scrolled .header-inner { height: 54px; }
+@media (max-width: 767.98px) {
+  .anim .site-header.is-scrolled .header-inner { height: 52px; }
+}

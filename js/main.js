@@ -482,13 +482,77 @@ function initGlobe() {
   }
 }
 
+/* ---------- Title entrance ----------
+ * Wraps each word of the hero title so CSS can raise it out of a mask one
+ * word at a time. Only runs when html.anim is set (no reduced-motion preference). */
+function initTitle() {
+  if (!document.documentElement.classList.contains("anim")) return;
+  document.querySelectorAll(".hero h1").forEach((h1) => {
+    let i = 0;
+    const split = (node) => {
+      [...node.childNodes].forEach((child) => {
+        if (child.nodeType === Node.ELEMENT_NODE) { split(child); return; }
+        if (child.nodeType !== Node.TEXT_NODE || !child.textContent.trim()) return;
+        const frag = document.createDocumentFragment();
+        child.textContent.split(/(\s+)/).forEach((part) => {
+          if (!part) return;
+          if (/^\s+$/.test(part)) { frag.appendChild(document.createTextNode(" ")); return; }
+          const word = el("span", "word");
+          const inner = el("span", "word-inner", part);
+          inner.style.setProperty("--i", i++);
+          word.appendChild(inner);
+          frag.appendChild(word);
+        });
+        child.replaceWith(frag);
+      });
+    };
+    split(h1);
+    h1.classList.add("is-split");
+  });
+}
+
+/* ---------- Scroll effects ----------
+ * Hero content drifts up and fades as it scrolls away, the header gets a bit
+ * more compact, and a thin line in the header shows reading progress. */
+function initScrollFx() {
+  if (!document.documentElement.classList.contains("anim")) return;
+  const root = document.documentElement;
+  const header = document.querySelector(".site-header");
+  const hero = document.querySelector(".hero");
+  let queued = false;
+  const update = () => {
+    queued = false;
+    const y = window.scrollY;
+    const max = root.scrollHeight - window.innerHeight;
+    if (header) {
+      header.classList.toggle("is-scrolled", y > 40);
+      header.style.setProperty("--progress", max > 0 ? Math.min(y / max, 1).toFixed(4) : 0);
+    }
+    if (hero) {
+      const h = hero.offsetHeight;
+      if (y < h) {
+        const p = y / h;                                         // 0 at top, 1 when the hero is gone
+        hero.style.setProperty("--hero-shift", (y * 0.28).toFixed(1) + "px");
+        hero.style.setProperty("--hero-fade", (1 - p * 1.1).toFixed(3));
+        hero.style.setProperty("--globe-shift", (y * 0.12).toFixed(1) + "px");
+      }
+    }
+  };
+  const queue = () => {
+    if (!queued) { queued = true; requestAnimationFrame(update); }
+  };
+  window.addEventListener("scroll", queue, { passive: true });
+  window.addEventListener("resize", queue);
+  update();
+}
+
 /* ---------- Reveal on scroll ----------
  * Cards, headshots, and project panels fade up as they enter the view.
  * Skipped entirely for people who prefer reduced motion. */
 function initReveal() {
   if (!("IntersectionObserver" in window) || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
   const groups = document.querySelectorAll(".card-grid, .people, .past-grid, .contact-list");
-  const singles = document.querySelectorAll(".project-feature, .cert, .involved-copy, .partners");
+  const singles = document.querySelectorAll(".project-feature, .cert, .involved-copy, .partners, .section-head, .people-heading, .event-legend");
   const items = [];
   groups.forEach((g) => [...g.children].forEach((child, i) => {
     child.style.transitionDelay = (i % 5) * 70 + "ms";   // a short stagger across each row
@@ -527,6 +591,8 @@ initSectionLinks();
 initEmailLinks();
 initGlass();
 initGlobe();
+initTitle();
+initScrollFx();
 initReveal();
 setYear();
 window.addEventListener("load", scrollToInitialHash);
