@@ -413,7 +413,8 @@ function initGlass() {
  * On load the globe turns on its axis and eases to a stop. Each line of
  * longitude is drawn as the front half of an ellipse whose width is
  * R * sin(longitude), so shifting every longitude by the same angle reads
- * as rotation. Static for people who prefer reduced motion. */
+ * as rotation. Moving the pointer across the header turns it a little more.
+ * Static for people who prefer reduced motion. */
 function initGlobe() {
   const group = document.querySelector(".hero-globe .globe-meridians");
   if (!group) return;
@@ -435,18 +436,36 @@ function initGlobe() {
     path.setAttribute("d", d);
   };
 
-  const from = -120;   // degrees of spin before settling
   if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) { draw(0); return; }
-  draw(from);
+
+  // The turn is the intro spin plus a pointer offset that eases toward its target
+  const from = -120;                 // degrees of intro spin before settling
   const start = performance.now() + 250;
   const duration = 2600;
-  const tick = (now) => {
+  let target = 0, follow = 0, running = false;
+  const frame = (now) => {
     const t = Math.min(Math.max((now - start) / duration, 0), 1);
-    const eased = 1 - Math.pow(1 - t, 3);                     // fast start, gentle stop
-    draw(from * (1 - eased));
-    if (t < 1) requestAnimationFrame(tick);
+    const intro = from * Math.pow(1 - t, 3);                  // fast start, gentle stop
+    follow += (target - follow) * 0.08;                       // smooth chase toward the pointer
+    draw(intro + follow);
+    if (t < 1 || Math.abs(target - follow) > 0.05) requestAnimationFrame(frame);
+    else running = false;
   };
-  requestAnimationFrame(tick);
+  const run = () => {
+    if (!running) { running = true; requestAnimationFrame(frame); }
+  };
+  run();
+
+  // Moving across the header turns the globe up to 25 degrees either way
+  const hero = group.closest(".hero");
+  if (hero && window.matchMedia("(hover: hover)").matches) {
+    hero.addEventListener("pointermove", (e) => {
+      const r = hero.getBoundingClientRect();
+      target = ((e.clientX - r.left) / r.width - 0.5) * 50;
+      run();
+    });
+    hero.addEventListener("pointerleave", () => { target = 0; run(); });
+  }
 }
 
 /* ---------- Reveal on scroll ----------
