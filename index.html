@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>IISE at Northeastern University</title>
+  <title>IISE Northeastern | Industrial &amp; Systems Engineering Club at Northeastern University</title>
   <meta name="description" content="Build skills. Network. Launch careers. The Northeastern University chapter of the Institute of Industrial &amp; Systems Engineers.">
   <link rel="canonical" href="https://iiseneu.org/">
 
@@ -31,11 +31,67 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
+  <!-- Tells search engines who we are (name, logo, socials). Events are added by js/main.js -->
+  <script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebSite",
+        "@id": "https://iiseneu.org/#website",
+        "url": "https://iiseneu.org/",
+        "name": "IISE Northeastern",
+        "alternateName": [
+          "IISE at Northeastern University",
+          "IISE NEU"
+        ],
+        "publisher": {
+          "@id": "https://iiseneu.org/#org"
+        }
+      },
+      {
+        "@type": "Organization",
+        "@id": "https://iiseneu.org/#org",
+        "name": "IISE Northeastern University Chapter",
+        "alternateName": [
+          "IISE Northeastern",
+          "IISE NEU",
+          "Institute of Industrial and Systems Engineers at Northeastern University"
+        ],
+        "description": "The Northeastern University student chapter of the Institute of Industrial & Systems Engineers: client consulting projects, certifications, employer events, and community for industrial engineering students.",
+        "url": "https://iiseneu.org/",
+        "logo": "https://iiseneu.org/assets/icons/icon-512.png",
+        "email": "iisenortheastern@gmail.com",
+        "sameAs": [
+          "https://www.instagram.com/iise_neu/",
+          "https://www.linkedin.com/school/iise-northeastern-university/"
+        ],
+        "parentOrganization": {
+          "@type": "Organization",
+          "name": "Institute of Industrial and Systems Engineers",
+          "url": "https://www.iise.org/"
+        },
+        "location": {
+          "@type": "Place",
+          "name": "Northeastern University",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "360 Huntington Ave",
+            "addressLocality": "Boston",
+            "addressRegion": "MA",
+            "postalCode": "02115",
+            "addressCountry": "US"
+          }
+        }
+      }
+    ]
+  }
+  </script>
   <!-- Turn on entrance/scroll animation unless the visitor prefers reduced motion (set before paint to avoid a flash) -->
   <script>if (!matchMedia("(prefers-reduced-motion: reduce)").matches) document.documentElement.classList.add("anim");</script>
   <!-- Bump ?v= on both lines whenever styles.css or main.js change, so browsers fetch the new files -->
-  <link rel="stylesheet" href="css/styles.css?v=202610261310">
-  <script src="js/main.js?v=202610261310" defer></script>
+  <link rel="stylesheet" href="css/styles.css?v=202610261315">
+  <script src="js/main.js?v=202610261315" defer></script>
 </head>
 <body id="top">
   <!-- Icon sprite: referenced below with <use href="#icon-…">. Shapes based on Lucide (ISC license). -->

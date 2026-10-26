@@ -199,6 +199,8 @@ function renderEvents() {
   const upcoming = all.filter((e) => e.endObj >= today);
   const past = all.filter((e) => e.endObj < today).reverse();
 
+  addEventData(upcoming);
+
   const empty = "No upcoming events — check back soon.";
   const home = document.getElementById("events-list");
   if (home) fillList(home, upcoming.slice(0, HOME_EVENT_LIMIT), empty);
@@ -211,6 +213,71 @@ function renderEvents() {
     fillList(pastList, past, "", { past: true });
     document.getElementById("past-events").hidden = past.length === 0;
   }
+}
+
+/* ---------- Event listings for search engines ----------
+ * Publishes the upcoming events as schema.org Event data so Google can show
+ * them as event listings. Built from the same EVENTS array as the cards. */
+const CAMPUS_ADDRESS = {
+  "@type": "PostalAddress",
+  streetAddress: "360 Huntington Ave",
+  addressLocality: "Boston",
+  addressRegion: "MA",
+  postalCode: "02115",
+  addressCountry: "US",
+};
+
+// "6:00 – 7:00 pm", "11:00 am – 2:00 pm", "Fri 6–9 pm · ..." -> ["18:00", "19:00"]
+function parseTimes(text) {
+  const m = /(\d{1,2})(?::(\d{2}))?\s*(am|pm)?\s*[–-]\s*(\d{1,2})(?::(\d{2}))?\s*(am|pm)/i.exec(text || "");
+  if (!m) return null;
+  const to24 = (h, min, ap) => {
+    h = Number(h) % 12 + (ap.toLowerCase() === "pm" ? 12 : 0);
+    return String(h).padStart(2, "0") + ":" + (min || "00");
+  };
+  return [to24(m[1], m[2], m[3] || m[6]), to24(m[4], m[5], m[6])];
+}
+
+// Boston's UTC offset on a given date ("-04:00" in summer, "-05:00" in winter)
+function bostonOffset(dateStr) {
+  try {
+    const part = new Intl.DateTimeFormat("en-US", { timeZone: "America/New_York", timeZoneName: "shortOffset" })
+      .formatToParts(new Date(dateStr + "T12:00:00Z")).find((p) => p.type === "timeZoneName").value;   // "GMT-4"
+    const h = Number(part.replace("GMT", "")) || 0;
+    return (h < 0 ? "-" : "+") + String(Math.abs(h)).padStart(2, "0") + ":00";
+  } catch (err) {
+    return "";
+  }
+}
+
+function addEventData(upcoming) {
+  if (!upcoming.length || !(document.getElementById("events-list") || document.getElementById("events-upcoming"))) return;
+  const events = upcoming.map((e) => {
+    const t = parseTimes(e.time);
+    const at = (date, time) => (time ? `${date}T${time}:00${bostonOffset(date)}` : date);
+    const known = e.location && !/TBA/i.test(e.location);
+    return {
+      "@type": "Event",
+      name: e.title,
+      description: e.description,
+      startDate: at(e.date, t && t[0]),
+      endDate: e.endDate ? e.endDate : at(e.date, t && t[1]),
+      eventStatus: "https://schema.org/EventScheduled",
+      eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
+      location: {
+        "@type": "Place",
+        name: known ? `${e.location}, Northeastern University` : "Northeastern University",
+        address: CAMPUS_ADDRESS,
+      },
+      image: "https://iiseneu.org/assets/og-image.jpg",
+      url: "https://iiseneu.org/events",
+      organizer: { "@type": "Organization", name: "IISE Northeastern University Chapter", url: "https://iiseneu.org/" },
+    };
+  });
+  const tag = document.createElement("script");
+  tag.type = "application/ld+json";
+  tag.textContent = JSON.stringify({ "@context": "https://schema.org", "@graph": events });
+  document.head.appendChild(tag);
 }
 
 /* ---------- Mobile menu ---------- */
