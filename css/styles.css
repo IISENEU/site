@@ -932,7 +932,7 @@ a { color: var(--red); }
 @media (max-width: 767.98px) {
   :root { --header-h: 64px; }
 
-  .container { padding: 0 16px; }
+  .container { padding-left: 16px; padding-right: 16px; }   /* sides only: keep each section's own top/bottom spacing */
 
   .brand img { width: 40px; }
   .brand-text { display: inline; font-size: 1.15rem; }
