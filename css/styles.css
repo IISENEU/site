@@ -1612,3 +1612,46 @@ a { color: var(--red); }
 @media (prefers-reduced-motion: reduce) {
   .nav-toggle-bar::before, .nav-toggle-bar::after { transition: none; }
 }
+
+/* ---------- Frosted title ----------
+   Hero titles read as frosted glass: letters lit bright at the top and softer,
+   more see-through toward the bottom, a faint bright rim, and a sheen that passes across the words one after another every few seconds.
+   (Browsers can't blur what's behind text, so this is the look, not a real backdrop.) */
+@supports ((-webkit-background-clip: text) or (background-clip: text)) {
+  .hero h1:not(.is-split),
+  .hero h1 .word-inner {
+    background-image:
+      linear-gradient(105deg, transparent 40%, rgba(255, 255, 255, 0.95) 50%, transparent 60%),
+      linear-gradient(180deg, #fff 0%, rgba(255, 255, 255, 0.88) 45%, rgba(255, 255, 255, 0.58) 100%);
+    background-size: 320% 100%, 100% 100%;
+    background-repeat: no-repeat;
+    background-position: 160% 0, 0 0;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    -webkit-text-stroke: 0.6px rgba(255, 255, 255, 0.35);
+  }
+
+  .anim .hero h1 .word-inner {
+    animation:
+      word-rise .95s cubic-bezier(.2, .8, .2, 1) both,
+      title-sheen 8s ease-in-out infinite;
+    animation-delay:
+      calc(var(--i, 0) * 75ms + 120ms),
+      calc(var(--i, 0) * 160ms + 2.4s);
+  }
+}
+@keyframes title-sheen {
+  0%, 10% { background-position: 160% 0, 0 0; }
+  38%, 100% { background-position: -60% 0, 0 0; }
+}
+@media (prefers-reduced-transparency: reduce), (prefers-contrast: more) {
+  .hero h1:not(.is-split),
+  .hero h1 .word-inner {
+    background: none;
+    -webkit-text-fill-color: #fff;
+    color: #fff;
+    -webkit-text-stroke: 0;
+  }
+}
