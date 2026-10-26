@@ -1506,3 +1506,60 @@ a { color: var(--red); }
 @media (max-width: 767.98px) {
   .anim .site-header.is-scrolled .header-inner { height: 52px; }
 }
+
+/* ---------- Glass surfaces for white content cards ----------
+   Frosted white cards: a top-to-bottom sheen, a crisp bright top edge, a hairline
+   outline, and layered soft shadows (close + ambient) for depth. Gray sections get
+   a faint wash of color so the frosting has something to pick up. */
+:root {
+  --card-fill: linear-gradient(180deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.8) 100%);
+  --card-edge: rgba(255, 255, 255, 0.95);
+  --card-shadow:
+    0 0 0 1px rgba(43, 42, 38, 0.06),
+    0 1px 2px rgba(43, 42, 38, 0.05),
+    0 8px 24px -6px rgba(43, 42, 38, 0.11),
+    0 24px 48px -24px rgba(43, 42, 38, 0.16),
+    inset 0 1px 0 #fff;
+  --card-shadow-hover:
+    0 0 0 1px rgba(43, 42, 38, 0.05),
+    0 2px 4px rgba(43, 42, 38, 0.06),
+    0 16px 36px -8px rgba(43, 42, 38, 0.17),
+    0 36px 64px -28px rgba(43, 42, 38, 0.24),
+    inset 0 1px 0 #fff;
+}
+.section-alt {
+  background:
+    radial-gradient(700px 320px at 12% 0%, rgba(206, 17, 38, 0.05), transparent 70%),
+    radial-gradient(640px 360px at 92% 100%, rgba(43, 42, 38, 0.06), transparent 70%),
+    var(--bg-alt);
+}
+.card,
+.project,
+.contact-btn,
+.section-alt .cta-band {
+  background: var(--card-fill);
+  -webkit-backdrop-filter: blur(14px) saturate(1.3);
+  backdrop-filter: blur(14px) saturate(1.3);
+  border-color: var(--card-edge);
+  box-shadow: var(--card-shadow);
+}
+.event,
+.event-past,
+.project-feature { box-shadow: var(--card-shadow); }
+.project-feature { border-top-color: var(--red); }          /* keep its red top edge */
+.section-alt .cta-band { border-left-color: var(--red); }  /* and the CTA's red left edge */
+@media (hover: hover) {
+  .card:hover,
+  .project:hover,
+  .contact-btn:hover,
+  .section-alt .cta-band:hover { box-shadow: var(--card-shadow-hover); }
+  .card:hover { border-color: var(--card-edge); }
+}
+@media (prefers-reduced-transparency: reduce), (prefers-contrast: more) {
+  .card, .project, .contact-btn, .section-alt .cta-band {
+    background: #fff;
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    border-color: var(--line-strong, #C9C8C3);
+  }
+}
