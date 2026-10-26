@@ -512,21 +512,18 @@ function initTitle() {
 }
 
 /* ---------- Scroll effects ----------
- * Hero content drifts up and fades as it scrolls away, the header gets a bit
- * more compact, and a thin line in the header shows reading progress. */
+ * Hero content drifts up and fades as it scrolls away, and the header gets a
+ * bit more compact. */
 function initScrollFx() {
   if (!document.documentElement.classList.contains("anim")) return;
-  const root = document.documentElement;
   const header = document.querySelector(".site-header");
   const hero = document.querySelector(".hero");
   let queued = false;
   const update = () => {
     queued = false;
     const y = window.scrollY;
-    const max = root.scrollHeight - window.innerHeight;
     if (header) {
       header.classList.toggle("is-scrolled", y > 40);
-      header.style.setProperty("--progress", max > 0 ? Math.min(y / max, 1).toFixed(4) : 0);
     }
     if (hero) {
       const h = hero.offsetHeight;

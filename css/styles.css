@@ -1495,21 +1495,7 @@ a { color: var(--red); }
 .anim .section-head.reveal .eyebrow::before { width: 0; }
 .anim .section-head.reveal.is-in .eyebrow::before { width: 28px; transition: width .6s cubic-bezier(.65, 0, .35, 1) .25s; }
 
-/* Header: a little more compact once you scroll, with a thin reading-progress line */
-.site-header .header-inner::after {
-  content: "";
-  position: absolute;
-  left: 28px; right: 28px; bottom: 0;
-  height: 2px;
-  border-radius: 2px;
-  background: var(--red);
-  transform: scaleX(var(--progress, 0));
-  transform-origin: left;
-  opacity: 0;
-  transition: opacity .3s ease;
-  pointer-events: none;
-}
-.anim .site-header.is-scrolled .header-inner::after { opacity: .85; }
+/* Header: a little more compact once you scroll */
 .anim .header-inner { transition: height .35s cubic-bezier(.2, .8, .2, 1), background-color .35s ease, border-color .35s ease, box-shadow .35s ease; }
 .anim .site-header.is-scrolled .header-inner { height: 54px; }
 @media (max-width: 767.98px) {
