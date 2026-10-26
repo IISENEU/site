@@ -706,7 +706,7 @@ function initScrollFx() {
  * Skipped entirely for people who prefer reduced motion. */
 function initReveal() {
   if (!("IntersectionObserver" in window) || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-  const groups = document.querySelectorAll(".card-grid, .people, .past-grid, .contact-list");
+  const groups = document.querySelectorAll(".people, .past-grid, .contact-list");   // card grids use the scroll spring instead
   const singles = document.querySelectorAll(".project-feature, .cert, .involved-copy, .partners, .section-head, .people-heading");
   const items = [];
   groups.forEach((g) => {
@@ -737,6 +737,60 @@ function initReveal() {
   items.forEach((el) => observer.observe(el));
 }
 
+/* ---------- Scroll spring ----------
+ * Cards are always on the page; instead of fading in, they react to scrolling
+ * the way iOS message bubbles do. Each card trails the scroll a little (cards
+ * further along the direction of travel trail more), then springs back with a
+ * slight overshoot. Uses the CSS translate property so it stacks with the hover
+ * tilt, which uses transform. Off with reduced motion. */
+function initScrollSpring() {
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  const cards = [...document.querySelectorAll(".card-grid > .card")];
+  if (!cards.length) return;
+
+  const STIFFNESS = 190, DAMPING = 16;   // underdamped: settles with one small bounce
+  const PULL = 0.24;                     // how much of each scroll step a card lags by
+  const MAX = 18;                        // never trails by more than this many pixels
+  const springs = cards.map((el) => ({ el, y: 0, v: 0 }));
+  let lastScroll = window.scrollY;
+  let lastTime = 0;
+  let running = false;
+
+  const step = (time) => {
+    const dt = Math.min((time - lastTime) / 1000 || 1 / 60, 1 / 30);
+    lastTime = time;
+    let moving = false;
+    for (const s of springs) {
+      s.v += (-STIFFNESS * s.y - DAMPING * s.v) * dt;
+      s.y += s.v * dt;
+      if (Math.abs(s.y) < 0.05 && Math.abs(s.v) < 0.05) { s.y = 0; s.v = 0; }
+      else moving = true;
+      s.el.style.translate = s.y ? `0 ${s.y.toFixed(2)}px` : "";
+    }
+    running = moving;
+    if (moving) requestAnimationFrame(step);
+  };
+
+  window.addEventListener("scroll", () => {
+    const dy = window.scrollY - lastScroll;
+    lastScroll = window.scrollY;
+    const vh = window.innerHeight;
+    if (!dy || Math.abs(dy) > vh * 0.4) return;                         // a jump (link, restore), not a scroll
+    for (const s of springs) {
+      const r = s.el.getBoundingClientRect();
+      if (r.bottom < -vh * 0.25 || r.top > vh * 1.25) continue;      // off screen: leave it
+      const pos = Math.min(Math.max((r.top - s.y + r.height / 2) / vh, 0), 1);   // 0 = top of screen, 1 = bottom
+      const lag = 0.35 + 0.65 * (dy > 0 ? pos : 1 - pos);                       // trailing edge lags most
+      s.y = Math.max(-MAX, Math.min(MAX, s.y + dy * PULL * lag));
+    }
+    if (!running) {
+      running = true;
+      lastTime = performance.now();
+      requestAnimationFrame(step);
+    }
+  }, { passive: true });
+}
+
 /* ---------- Footer year ---------- */
 function setYear() {
   document.querySelectorAll("[data-year]").forEach((node) => {
@@ -756,5 +810,6 @@ initGlobe();
 initTitle();
 initScrollFx();
 initReveal();
+initScrollSpring();
 setYear();
 window.addEventListener("load", scrollToInitialHash);
