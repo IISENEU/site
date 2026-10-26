@@ -49,6 +49,7 @@ body {
    iPhone status bar, the space under a short page) matches the dark hero and footer,
    while the sections inside <main> stay white. Works without :has(), including on iOS. */
 html, body { background: var(--charcoal); }
+html.edge-light, html.edge-light body { background: var(--bg); }   /* set while white content is at the top (js/main.js) */
 main { display: block; background: var(--bg); }
 
 img, svg { display: block; max-width: 100%; }
