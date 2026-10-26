@@ -403,6 +403,35 @@ function showToast(message) {
   toastTimer = setTimeout(() => toast.classList.remove("is-visible"), 4000);
 }
 
+/* ---------- Current section ----------
+ * On the home page the nav follows the reader: Home, About and Events take
+ * turns as the current link while scrolling, and the glass lens follows. */
+function initScrollSpy() {
+  const sections = [...document.querySelectorAll('.site-nav a[href^="#"]:not(.nav-cta)')]
+    .map((a) => ({ a, target: document.getElementById(a.getAttribute("href").slice(1)) }))
+    .filter((s) => s.target);
+  if (sections.length < 2) return;
+  let active = sections.find((s) => s.a.hasAttribute("aria-current")) || sections[0];
+  let queued = false;
+  const update = () => {
+    queued = false;
+    const line = window.innerHeight * 0.35;   // a section counts once its top passes a third of the way up
+    let next = sections[0];
+    sections.forEach((s) => { if (s.target.getBoundingClientRect().top <= line) next = s; });
+    if (next === active) return;
+    active.a.removeAttribute("aria-current");
+    next.a.setAttribute("aria-current", next.target.id === "top" ? "page" : "location");
+    active = next;
+    document.dispatchEvent(new Event("navcurrent"));
+  };
+  const queue = () => {
+    if (!queued) { queued = true; requestAnimationFrame(update); }
+  };
+  window.addEventListener("scroll", queue, { passive: true });
+  window.addEventListener("resize", queue);
+  update();
+}
+
 /* ---------- Glass header ----------
  * Light glass over light content and dark glass over the hero and footer,
  * a lens that slides between nav links, and a highlight that follows the
@@ -440,7 +469,7 @@ function initGlass() {
     lens.setAttribute("aria-hidden", "true");
     list.prepend(lens);
     nav.classList.add("has-lens");
-    const current = list.querySelector('a[aria-current="page"]:not(.nav-cta)');
+    const current = () => list.querySelector("a[aria-current]:not(.nav-cta)");
     const moveTo = (a) => {
       if (!a || !a.offsetWidth) { lens.style.opacity = "0"; return; }
       const l = list.getBoundingClientRect();
@@ -454,16 +483,20 @@ function initGlass() {
       a.addEventListener("mouseenter", () => moveTo(a));
       a.addEventListener("focus", () => moveTo(a));
     });
-    list.addEventListener("mouseleave", () => moveTo(current));
-    list.addEventListener("focusout", (e) => { if (!list.contains(e.relatedTarget)) moveTo(current); });
+    list.addEventListener("mouseleave", () => moveTo(current()));
+    list.addEventListener("focusout", (e) => { if (!list.contains(e.relatedTarget)) moveTo(current()); });
     // Start on the current page without sliding in
     lens.style.transition = "none";
-    moveTo(current);
+    moveTo(current());
     void lens.offsetWidth;
     lens.style.transition = "";
-    window.addEventListener("resize", () => moveTo(current));
-    document.fonts && document.fonts.ready.then(() => moveTo(current));   // link widths change once fonts load
-    bar.addEventListener("animationend", (e) => { if (e.target === bar) moveTo(current); });   // re-measure after the bar's entrance
+    window.addEventListener("resize", () => moveTo(current()));
+    document.fonts && document.fonts.ready.then(() => moveTo(current()));   // link widths change once fonts load
+    bar.addEventListener("animationend", (e) => { if (e.target === bar) moveTo(current()); });   // re-measure after the bar's entrance
+    // Follow the reader through the home page sections, unless the pointer or focus is on the nav
+    document.addEventListener("navcurrent", () => {
+      if (!list.matches(":hover") && !list.contains(document.activeElement)) moveTo(current());
+    });
   }
 
   // Move the header glow off the bar when the pointer leaves it
@@ -682,6 +715,7 @@ renderEvents();
 initNav();
 initSectionLinks();
 initEmailLinks();
+initScrollSpy();
 initGlass();
 initGlobe();
 initTitle();
