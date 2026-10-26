@@ -1563,3 +1563,12 @@ a { color: var(--red); }
     border-color: var(--line-strong, #C9C8C3);
   }
 }
+
+/* Project cards lift on hover, like the other cards */
+.project { transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease; }
+@media (hover: hover) {
+  .project:hover { transform: translateY(-3px); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .project:hover { transform: none; }
+}
