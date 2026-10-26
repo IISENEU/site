@@ -3,7 +3,7 @@
    1. Events: home page + events.html (edit the EVENTS array below)
    2. Mobile menu toggle
    3. Clean URLs (no .html, no #section) + section scrolling
-   4. Email links (copy address + toast)
+   4. Email links (copy address + toast), glass, globe spin, reveal
    5. Footer year
    ========================================================= */
 
@@ -409,6 +409,46 @@ function initGlass() {
   }, { passive: true });
 }
 
+/* ---------- Hero globe ----------
+ * On load the globe turns on its axis and eases to a stop. Each line of
+ * longitude is drawn as the front half of an ellipse whose width is
+ * R * sin(longitude), so shifting every longitude by the same angle reads
+ * as rotation. Static for people who prefer reduced motion. */
+function initGlobe() {
+  const group = document.querySelector(".hero-globe .globe-meridians");
+  if (!group) return;
+  const R = 92, CX = 100, TOP = 8, BOTTOM = 192, STEP = 30;   // a meridian every 30 degrees
+  const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+  group.replaceChildren(path);
+
+  const draw = (turn) => {
+    let d = "";
+    for (let k = -6; k <= 6; k++) {
+      const lon = turn + k * STEP;
+      if (lon <= -90 || lon >= 90) continue;                  // back of the globe: hidden
+      const s = Math.sin(lon * Math.PI / 180);
+      const rx = Math.abs(R * s);
+      d += rx < 0.5
+        ? `M${CX} ${TOP}V${BOTTOM}`
+        : `M${CX} ${TOP}A${rx.toFixed(2)} ${R} 0 0 ${s > 0 ? 1 : 0} ${CX} ${BOTTOM}`;
+    }
+    path.setAttribute("d", d);
+  };
+
+  const from = -120;   // degrees of spin before settling
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) { draw(0); return; }
+  draw(from);
+  const start = performance.now() + 250;
+  const duration = 2600;
+  const tick = (now) => {
+    const t = Math.min(Math.max((now - start) / duration, 0), 1);
+    const eased = 1 - Math.pow(1 - t, 3);                     // fast start, gentle stop
+    draw(from * (1 - eased));
+    if (t < 1) requestAnimationFrame(tick);
+  };
+  requestAnimationFrame(tick);
+}
+
 /* ---------- Reveal on scroll ----------
  * Cards, headshots, and project panels fade up as they enter the view.
  * Skipped entirely for people who prefer reduced motion. */
@@ -453,6 +493,7 @@ initNav();
 initSectionLinks();
 initEmailLinks();
 initGlass();
+initGlobe();
 initReveal();
 setYear();
 window.addEventListener("load", scrollToInitialHash);
