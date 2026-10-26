@@ -855,9 +855,9 @@ a { color: var(--red); }
 .footer-grid {
   display: grid;
   grid-template-columns: 1.5fr 1fr 1fr;
-  gap: 48px;
-  padding-top: 72px;
-  padding-bottom: 56px;
+  gap: 40px;
+  padding-top: 48px;
+  padding-bottom: 36px;
 }
 
 .footer-wordmark {
@@ -871,25 +871,25 @@ a { color: var(--red); }
   flex: none;
   display: grid;
   place-items: center;
-  width: 52px; height: 52px;
+  width: 44px; height: 44px;
   border-radius: 50%;
   background: #fff;
   box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.06);
 }
-.footer-logo img { width: 44px; height: auto; }
+.footer-logo img { width: 37px; height: auto; }
 .footer-name {
   font-family: var(--font-head);
   font-weight: 700;
-  font-size: 1.45rem;
+  font-size: 1.3rem;
   letter-spacing: 0.04em;
   text-transform: uppercase;
   line-height: 1;
 }
 .footer-name span { color: var(--red-on-dark, #FF6170); }
-.footer-tagline { max-width: 34ch; margin: 18px 0 24px; line-height: 1.6; color: rgba(255, 255, 255, 0.66); }
+.footer-tagline { max-width: 34ch; margin: 12px 0 16px; line-height: 1.6; color: rgba(255, 255, 255, 0.66); }
 
 .footer-heading {
-  margin: 6px 0 18px;
+  margin: 4px 0 12px;
   font-family: var(--font-body);
   font-size: 0.75rem;
   font-weight: 600;
@@ -898,7 +898,7 @@ a { color: var(--red); }
   color: rgba(255, 255, 255, 0.5);
 }
 
-.footer-links { display: grid; gap: 10px; list-style: none; margin: 0; padding: 0; }
+.footer-links { display: grid; gap: 6px; list-style: none; margin: 0; padding: 0; }
 .footer-links a {
   display: inline-flex;
   align-items: center;
@@ -917,7 +917,7 @@ a { color: var(--red); }
   box-shadow: 0 0 8px rgba(206, 17, 38, 0.7);
 }
 
-.footer-meet { margin: 0 0 16px; line-height: 1.5; color: rgba(255, 255, 255, 0.66); }
+.footer-meet { margin: 0 0 10px; line-height: 1.5; color: rgba(255, 255, 255, 0.66); }
 .footer-meet strong { display: block; margin-bottom: 2px; font-weight: 600; color: #fff; }
 .footer-meet a { color: rgba(255, 255, 255, 0.85); text-underline-offset: 3px; overflow-wrap: anywhere; }
 .footer-meet a:hover { color: #fff; }
@@ -944,8 +944,8 @@ a { color: var(--red); }
   align-items: center;
   justify-content: space-between;
   gap: 12px 24px;
-  padding-top: 20px;
-  padding-bottom: 28px;
+  padding-top: 14px;
+  padding-bottom: 18px;
   border-top: 1px solid rgba(255, 255, 255, 0.08);
   font-size: 0.85rem;
   color: rgba(255, 255, 255, 0.55);
@@ -955,7 +955,7 @@ a { color: var(--red); }
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  padding: 8px 14px;
+  padding: 6px 12px;
   border-radius: 999px;
   border: 1px solid rgba(255, 255, 255, 0.14);
   background: rgba(255, 255, 255, 0.05);
@@ -974,6 +974,7 @@ a { color: var(--red); }
 .to-top:hover { background: rgba(255, 255, 255, 0.12); border-color: rgba(255, 255, 255, 0.3); color: #fff; }
 .to-top:hover svg { transform: translateY(-2px); }
 
+.site-footer .social a { width: 40px; height: 40px; }
 .site-footer :focus-visible { box-shadow: 0 0 0 3px var(--charcoal), 0 0 0 5px #fff; }
 
 /* ---------- Toast (email copied) ---------- */
@@ -1008,7 +1009,7 @@ a { color: var(--red); }
   .site-nav .nav-cta { margin-left: 4px; padding: 8px 14px; }
   .card-grid { grid-template-columns: repeat(2, 1fr); }
   .highlights > :last-child:nth-child(odd) { grid-column: 1 / -1; }
-  .footer-grid { grid-template-columns: 1fr 1fr; gap: 36px 32px; }
+  .footer-grid { grid-template-columns: 1fr 1fr; gap: 28px 32px; }
   .footer-brand { grid-column: 1 / -1; }   /* brand on its own row, links + meeting info side by side */
   .footer-meet a { overflow-wrap: normal; }
   .people-chairs { grid-template-columns: repeat(4, 1fr); }
@@ -1100,8 +1101,8 @@ a { color: var(--red); }
   .people-chairs .person h4 { font-size: 1.05rem; }
   .person p { font-size: 0.825rem; }
 
-  .footer-grid { grid-template-columns: 1fr; gap: 36px; padding-top: 56px; padding-bottom: 40px; }
-  .footer-links { grid-template-columns: 1fr 1fr; gap: 10px 24px; }   /* page links in two columns */
+  .footer-grid { grid-template-columns: 1fr; gap: 26px; padding-top: 40px; padding-bottom: 28px; }
+  .footer-links { grid-template-columns: 1fr 1fr; gap: 6px 24px; }   /* page links in two columns */
   .footer-meet a { overflow-wrap: normal; }
   .footer-globe { width: 320px; right: -110px; bottom: -110px; }
 }
