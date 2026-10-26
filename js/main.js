@@ -413,8 +413,8 @@ function initGlass() {
  * On load the globe turns on its axis and eases to a stop. Each line of
  * longitude is drawn as the front half of an ellipse whose width is
  * R * sin(longitude), so shifting every longitude by the same angle reads
- * as rotation. Moving the pointer across the header turns it a little more.
- * Static for people who prefer reduced motion. */
+ * as rotation. It spins with momentum: flick the pointer across the header and
+ * it keeps turning, then friction slows it. Static with reduced motion. */
 function initGlobe() {
   const group = document.querySelector(".hero-globe .globe-meridians");
   if (!group) return;
@@ -424,8 +424,9 @@ function initGlobe() {
 
   const draw = (turn) => {
     let d = "";
-    for (let k = -6; k <= 6; k++) {
-      const lon = turn + k * STEP;
+    const base = ((turn % STEP) + STEP) % STEP;                 // the pattern repeats every STEP degrees
+    for (let k = -4; k <= 4; k++) {
+      const lon = base + k * STEP;
       if (lon <= -90 || lon >= 90) continue;                  // back of the globe: hidden
       const s = Math.sin(lon * Math.PI / 180);
       const rx = Math.abs(R * s);
@@ -438,33 +439,46 @@ function initGlobe() {
 
   if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) { draw(0); return; }
 
-  // The turn is the intro spin plus a pointer offset that eases toward its target
-  const from = -120;                 // degrees of intro spin before settling
-  const start = performance.now() + 250;
-  const duration = 2600;
-  let target = 0, follow = 0, running = false;
+  // Physics: the globe has spin (degrees per second) that friction slowly takes away.
+  // Moving the pointer across the header grabs the surface and sets the spin, so a quick
+  // flick keeps it turning after the pointer stops, and moving back spins it the other way.
+  const FRICTION = 1.3;      // per second: higher stops sooner
+  const GRIP = 0.35;         // how strongly each pointer move takes over the current spin
+  const DEG_PER_PX = 0.12;   // pointer speed (px/s) to spin speed (deg/s)
+  const MAX_SPIN = 720;      // deg/s
+  let turn = 0, spin = 0, last = 0, running = false;
   const frame = (now) => {
-    const t = Math.min(Math.max((now - start) / duration, 0), 1);
-    const intro = from * Math.pow(1 - t, 3);                  // fast start, gentle stop
-    follow += (target - follow) * 0.08;                       // smooth chase toward the pointer
-    draw(intro + follow);
-    if (t < 1 || Math.abs(target - follow) > 0.05) requestAnimationFrame(frame);
+    const dt = Math.min((now - last) / 1000, 0.05);
+    last = now;
+    turn = (turn + spin * dt) % 360;
+    spin *= Math.exp(-FRICTION * dt);
+    draw(turn);
+    if (Math.abs(spin) > 0.3) requestAnimationFrame(frame);
     else running = false;
   };
   const run = () => {
-    if (!running) { running = true; requestAnimationFrame(frame); }
+    if (!running) { running = true; last = performance.now(); requestAnimationFrame(frame); }
   };
-  run();
 
-  // Moving across the header turns the globe up to 25 degrees either way
+  // Intro: one flick on load that coasts to a stop (about 120 degrees)
+  draw(0);
+  setTimeout(() => { spin = 160; run(); }, 250);
+
   const hero = group.closest(".hero");
   if (hero && window.matchMedia("(hover: hover)").matches) {
+    let px = null, pt = 0;
     hero.addEventListener("pointermove", (e) => {
-      const r = hero.getBoundingClientRect();
-      target = ((e.clientX - r.left) / r.width - 0.5) * 50;
-      run();
+      const now = performance.now();
+      if (px !== null) {
+        const v = (e.clientX - px) / (Math.max(now - pt, 8) / 1000);    // px per second
+        const target = Math.max(-MAX_SPIN, Math.min(MAX_SPIN, v * DEG_PER_PX));
+        spin += (target - spin) * GRIP;
+        run();
+      }
+      px = e.clientX;
+      pt = now;
     });
-    hero.addEventListener("pointerleave", () => { target = 0; run(); });
+    hero.addEventListener("pointerleave", () => { px = null; });  // let go: it coasts
   }
 }
 
