@@ -1931,3 +1931,33 @@ a { color: var(--red); }
     transform: perspective(1000px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)) translateY(-3px);
   }
 }
+
+/* Pricing panel at rest: already lit and raised, so hover builds on it instead of jumping.
+   Shaded top-left to bottom-right, a hairline edge, a soft resting shadow, and a dim
+   version of the glow (which brightens and follows the pointer on hover). */
+.cert-pricing {
+  background: linear-gradient(155deg, #3B3A35 0%, var(--charcoal) 45%, #22211E 100%);
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.05),
+    0 2px 4px rgba(0, 0, 0, 0.12),
+    0 14px 32px -10px rgba(43, 42, 38, 0.35),
+    0 32px 64px -32px rgba(43, 42, 38, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12),
+    inset 0 -18px 32px -24px rgba(0, 0, 0, 0.35);
+}
+.cert-pricing::after {
+  background: radial-gradient(360px circle at var(--mx, 22%) var(--my, 0%), rgba(255, 255, 255, 0.08), transparent 70%);
+  opacity: 0.55;
+}
+@media (hover: hover) {
+  .cert-pricing:hover {
+    box-shadow:
+      0 0 0 1px rgba(255, 255, 255, 0.07),
+      0 4px 8px rgba(0, 0, 0, 0.14),
+      0 24px 48px -12px rgba(43, 42, 38, 0.42),
+      0 48px 80px -36px rgba(43, 42, 38, 0.5),
+      inset 0 1px 0 rgba(255, 255, 255, 0.16),
+      inset 0 -18px 32px -24px rgba(0, 0, 0, 0.35);
+  }
+  .cert-pricing:hover::after { opacity: 1; }
+}
