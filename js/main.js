@@ -223,6 +223,7 @@ function initNav() {
     toggle.setAttribute("aria-expanded", String(open));
     toggle.querySelector(".visually-hidden").textContent = open ? "Close menu" : "Menu";
     nav.classList.toggle("is-open", open);
+    document.documentElement.classList.toggle("menu-open", open);   // dims the page behind the phone menu
   };
 
   toggle.addEventListener("click", () => setOpen(toggle.getAttribute("aria-expanded") !== "true"));

@@ -1961,3 +1961,107 @@ a { color: var(--red); }
   }
   .cert-pricing:hover::after { opacity: 1; }
 }
+
+/* ---------- Phone menu ----------
+   A raised card like the rest of the site: lit surface, layered shadows, roomy rows
+   with a chevron, the current page tinted red, and the page behind dimmed and blurred.
+   It scales in from the menu button and the rows slide in one after another. */
+@media (max-width: 767.98px) {
+  .site-header .site-nav {
+    padding: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.9);
+    border-radius: 22px;
+    background: linear-gradient(160deg, #FFFFFF 0%, #FAFAF9 60%, #F2F1EE 100%);
+    box-shadow:
+      0 0 0 1px rgba(43, 42, 38, 0.06),
+      0 18px 40px -12px rgba(43, 42, 38, 0.35),
+      0 40px 80px -40px rgba(43, 42, 38, 0.45),
+      inset 0 1px 0 #fff;
+    transform-origin: top right;
+  }
+  .site-header .site-nav.is-open { animation: menu-in .32s cubic-bezier(.2, .8, .2, 1); }
+
+  .site-header .site-nav ul { gap: 2px; padding: 0; }
+  .site-header .site-nav a:not(.nav-cta) {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 0;
+    padding: 14px 16px;
+    border: 0;
+    border-radius: 14px;
+    font-size: 1.05rem;
+    font-weight: 500;
+    color: var(--ink);
+    transition: background-color .2s ease, color .2s ease;
+  }
+  .site-header .site-nav a:not(.nav-cta)::after {      /* chevron */
+    content: "";
+    display: block;
+    position: static;
+    width: 7px; height: 7px;
+    margin-right: 4px;
+    background: none;
+    border-top: 2px solid currentColor;
+    border-right: 2px solid currentColor;
+    border-radius: 1px;
+    opacity: 0.3;
+    transform: rotate(45deg);
+    transition: opacity .2s ease, transform .2s ease;
+  }
+  .site-header .site-nav a:not(.nav-cta):hover,
+  .site-header .site-nav a:not(.nav-cta):active {
+    background: rgba(43, 42, 38, 0.05);
+    color: var(--ink);
+  }
+  .site-header .site-nav a:not(.nav-cta):hover::after { opacity: 0.55; transform: translateX(2px) rotate(45deg); }
+  .site-header .site-nav a[aria-current="page"]:not(.nav-cta) {
+    background: rgba(206, 17, 38, 0.07);
+    color: var(--red);
+    font-weight: 600;
+  }
+  .site-header .site-nav a[aria-current="page"]:not(.nav-cta)::after { opacity: 0.7; }
+
+  .site-header .site-nav .nav-cta {
+    margin: 8px 0 0;
+    padding: 15px;
+    border-radius: 14px;
+    font-size: 1.05rem;
+  }
+
+  .site-header .site-nav.is-open li { animation: menu-item-in .38s cubic-bezier(.2, .8, .2, 1) both; }
+  .site-header .site-nav.is-open li:nth-child(1) { animation-delay: .04s; }
+  .site-header .site-nav.is-open li:nth-child(2) { animation-delay: .07s; }
+  .site-header .site-nav.is-open li:nth-child(3) { animation-delay: .10s; }
+  .site-header .site-nav.is-open li:nth-child(4) { animation-delay: .13s; }
+  .site-header .site-nav.is-open li:nth-child(5) { animation-delay: .16s; }
+  .site-header .site-nav.is-open li:nth-child(6) { animation-delay: .19s; }
+  .site-header .site-nav.is-open li:nth-child(7) { animation-delay: .22s; }
+
+  /* Dim and soften the page behind the open menu; tapping it closes the menu */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 90;                                   /* under the header (100) */
+    background: rgba(30, 29, 26, 0.3);
+    -webkit-backdrop-filter: blur(4px);
+    backdrop-filter: blur(4px);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .25s ease;
+  }
+  html.menu-open body::before { opacity: 1; pointer-events: auto; }
+}
+@keyframes menu-in {
+  from { opacity: 0; transform: translateY(-6px) scale(0.96); }
+  to   { opacity: 1; transform: none; }
+}
+@keyframes menu-item-in {
+  from { opacity: 0; transform: translateY(-4px); }
+  to   { opacity: 1; transform: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .site-header .site-nav.is-open,
+  .site-header .site-nav.is-open li { animation: none; }
+}
