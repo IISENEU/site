@@ -1573,7 +1573,7 @@ a { color: var(--red); }
   .project:hover { transform: none; }
 }
 
-/* Menu button (phones): a small glass disc with two lines that cross into an X when open.
+/* Menu button (phones): a small glass disc with three lines that turn into an X when open.
    Sits fully inside the bar with even spacing, instead of three lines pressed to the edge. */
 .nav-toggle {
   width: 40px;
@@ -1591,7 +1591,7 @@ a { color: var(--red); }
 }
 .site-header.on-dark .nav-toggle:hover { background: rgba(255, 255, 255, 0.18); }
 
-.nav-toggle-bar { width: 18px; height: 2px; background: transparent; }   /* middle line hidden */
+.nav-toggle-bar { width: 18px; height: 2px; border-radius: 2px; background: currentColor; transition: background-color .2s ease; }
 .nav-toggle-bar::before,
 .nav-toggle-bar::after {
   width: 18px;
@@ -1600,10 +1600,11 @@ a { color: var(--red); }
   background: currentColor;
   transition: transform .35s cubic-bezier(.3, 1.35, .45, 1);
 }
-.nav-toggle-bar::before { top: -3.5px; }
-.nav-toggle-bar::after { top: 3.5px; }
-.nav-toggle[aria-expanded="true"] .nav-toggle-bar::before { transform: translateY(3.5px) rotate(45deg); }
-.nav-toggle[aria-expanded="true"] .nav-toggle-bar::after { transform: translateY(-3.5px) rotate(-45deg); }
+.nav-toggle-bar::before { top: -5.5px; }
+.nav-toggle-bar::after { top: 5.5px; }
+.nav-toggle[aria-expanded="true"] .nav-toggle-bar { background: transparent; }
+.nav-toggle[aria-expanded="true"] .nav-toggle-bar::before { transform: translateY(5.5px) rotate(45deg); }
+.nav-toggle[aria-expanded="true"] .nav-toggle-bar::after { transform: translateY(-5.5px) rotate(-45deg); }
 
 @media (max-width: 767.98px) {
   .header-inner { padding-right: 8px; }
