@@ -1813,3 +1813,14 @@ a { color: var(--red); }
   }
 }
 .site-footer { padding-bottom: env(safe-area-inset-bottom, 0px); }
+
+/* The bar swaps between light and dark glass almost instantly, so a fast scroll back
+   into the dark hero doesn't drag a white bar along with it. Only the size change eases. */
+.header-inner,
+.anim .header-inner {
+  transition:
+    height .35s cubic-bezier(.2, .8, .2, 1),
+    background-color .1s linear,
+    border-color .1s linear,
+    box-shadow .1s linear;
+}
