@@ -2268,7 +2268,7 @@ a { color: var(--red); }
    globes (outline, meridians, center line, latitudes). Shared by every dark box
    (meeting card, banners, pricing, phone menu). */
 :root {
-  --globe-svg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200' fill='none' stroke='%23fff' stroke-opacity='.12' stroke-width='1.1'%3E%3Ccircle cx='100' cy='100' r='92'/%3E%3Cellipse cx='100' cy='100' rx='46' ry='92'/%3E%3Cellipse cx='100' cy='100' rx='80' ry='92'/%3E%3Cpath d='M100 8v184M12 72h176M12 128h176M28 44q72 26 144 0M28 156q72-26 144 0'/%3E%3C/svg%3E");
+  --globe-svg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200' fill='none' stroke='%23fff' stroke-opacity='.07' stroke-width='3.5' stroke-linecap='round'%3E%3Ccircle cx='100' cy='100' r='92'/%3E%3Cellipse cx='100' cy='100' rx='46' ry='92'/%3E%3Cellipse cx='100' cy='100' rx='80' ry='92'/%3E%3Cpath d='M100 8v184M12 72h176M12 128h176M28 44q72 26 144 0M28 156q72-26 144 0'/%3E%3C/svg%3E");
   --globe-lines: var(--globe-svg) right -60px top -60px / 220px 220px no-repeat;
 }
 
