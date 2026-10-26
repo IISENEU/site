@@ -335,6 +335,78 @@ function showToast(message) {
   toastTimer = setTimeout(() => toast.classList.remove("is-visible"), 4000);
 }
 
+/* ---------- Glass header ----------
+ * Light glass over light content and dark glass over the hero and footer,
+ * a lens that slides between nav links, and a highlight that follows the
+ * pointer across buttons. Styles live under "Glass" in styles.css. */
+function initGlass() {
+  const header = document.querySelector(".site-header");
+  if (!header) return;
+  const bar = header.querySelector(".header-inner");
+
+  // Adaptive appearance: check what is scrolling under the middle of the bar
+  const darkSurfaces = [...document.querySelectorAll(".hero, .site-footer")];
+  let queued = false;
+  const update = () => {
+    queued = false;
+    const b = bar.getBoundingClientRect();
+    const y = b.top + b.height / 2;
+    const onDark = darkSurfaces.some((el) => {
+      const r = el.getBoundingClientRect();
+      return r.top <= y && r.bottom >= y;
+    });
+    header.classList.toggle("on-dark", onDark);
+  };
+  const queue = () => {
+    if (!queued) { queued = true; requestAnimationFrame(update); }
+  };
+  window.addEventListener("scroll", queue, { passive: true });
+  window.addEventListener("resize", queue);
+  update();
+
+  // Lens: only where people hover with a pointer
+  const nav = header.querySelector(".site-nav");
+  const list = nav && nav.querySelector("ul");
+  if (list && window.matchMedia("(hover: hover)").matches) {
+    const lens = el("span", "nav-lens");
+    lens.setAttribute("aria-hidden", "true");
+    list.prepend(lens);
+    nav.classList.add("has-lens");
+    const current = list.querySelector('a[aria-current="page"]:not(.nav-cta)');
+    const moveTo = (a) => {
+      if (!a || !a.offsetWidth) { lens.style.opacity = "0"; return; }
+      const l = list.getBoundingClientRect();
+      const r = a.getBoundingClientRect();
+      lens.style.width = r.width + "px";
+      lens.style.height = r.height + "px";
+      lens.style.transform = `translate(${r.left - l.left}px, ${r.top - l.top}px)`;
+      lens.style.opacity = "1";
+    };
+    list.querySelectorAll("a:not(.nav-cta)").forEach((a) => {
+      a.addEventListener("mouseenter", () => moveTo(a));
+      a.addEventListener("focus", () => moveTo(a));
+    });
+    list.addEventListener("mouseleave", () => moveTo(current));
+    list.addEventListener("focusout", (e) => { if (!list.contains(e.relatedTarget)) moveTo(current); });
+    // Start on the current page without sliding in
+    lens.style.transition = "none";
+    moveTo(current);
+    void lens.offsetWidth;
+    lens.style.transition = "";
+    window.addEventListener("resize", () => moveTo(current));
+    document.fonts && document.fonts.ready.then(() => moveTo(current));   // link widths change once fonts load
+  }
+
+  // Highlight that follows the pointer across controls
+  document.addEventListener("pointermove", (e) => {
+    const control = e.target.closest(".btn, .nav-cta, .contact-btn");
+    if (!control) return;
+    const r = control.getBoundingClientRect();
+    control.style.setProperty("--mx", e.clientX - r.left + "px");
+    control.style.setProperty("--my", e.clientY - r.top + "px");
+  }, { passive: true });
+}
+
 /* ---------- Footer year ---------- */
 function setYear() {
   document.querySelectorAll("[data-year]").forEach((node) => {
@@ -347,5 +419,6 @@ renderEvents();
 initNav();
 initSectionLinks();
 initEmailLinks();
+initGlass();
 setYear();
 window.addEventListener("load", scrollToInitialHash);

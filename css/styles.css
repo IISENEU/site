@@ -1021,3 +1021,180 @@ a { color: var(--red); }
     animation-duration: 0.01ms !important;
   }
 }
+
+/* =========================================================
+   Glass (preview)
+   Apple's Liquid Glass, translated to the web: glass only on the
+   floating functional layer (nav bar, its menu, the toast), never on
+   content. The bar switches between light and dark glass based on what
+   is scrolling beneath it (js/main.js initGlass), a "lens" slides
+   between nav links on hover, and controls catch a highlight that
+   follows the pointer.
+   ========================================================= */
+:root {
+  --glass-blur: blur(24px) saturate(1.4);
+  --glass-light: rgba(255, 255, 255, 0.62);
+  --glass-light-strong: rgba(255, 255, 255, 0.86);  /* text-heavy panels */
+  --glass-panel: rgba(255, 255, 255, 0.98);          /* menu inside the bar: browsers can't blur through a glass parent */
+  --glass-dark: rgba(30, 29, 26, 0.48);
+  --glass-edge-light: rgba(255, 255, 255, 0.7);
+  --glass-edge-dark: rgba(255, 255, 255, 0.16);
+  --red-on-dark: #FF6170;                            /* 4.8:1 on charcoal */
+}
+
+/* Floating bar: content (including the dark hero) runs underneath it */
+.site-header {
+  position: fixed;
+  top: 12px;
+  left: 0; right: 0;
+  background: none;
+  border: 0;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  pointer-events: none;            /* only the bar itself takes clicks */
+}
+.header-inner {
+  position: relative;
+  pointer-events: auto;
+  width: calc(100% - 32px);
+  max-width: 1112px;
+  height: 60px;
+  margin: 0 auto;
+  padding: 0 8px 0 14px;
+  border-radius: 999px;
+  background: var(--glass-light);
+  -webkit-backdrop-filter: var(--glass-blur);
+  backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-edge-light);
+  box-shadow:
+    0 10px 30px rgba(43, 42, 38, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.75);   /* specular top edge */
+  transition: background-color .35s ease, border-color .35s ease, box-shadow .35s ease;
+}
+.brand img { width: 40px; border-radius: 50%; transition: background-color .35s ease; }
+
+/* Make room for the bar now that it floats over the page */
+.hero-inner { padding-top: 156px; }
+.page-hero .container { padding-top: 140px; }
+
+/* Dark glass when the bar sits over the hero or footer */
+.site-header.on-dark .header-inner {
+  background: var(--glass-dark);
+  border-color: var(--glass-edge-dark);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.14);
+}
+.site-header.on-dark .brand,
+.site-header.on-dark .nav-toggle { color: #fff; }
+.site-header.on-dark .brand img { background: #fff; }   /* the globe is charcoal; give it a white disc */
+.site-header.on-dark .brand-text span { color: var(--red-on-dark); }
+.site-header.on-dark .site-nav a:not(.nav-cta) { color: rgba(255, 255, 255, 0.92); }
+.site-header.on-dark .site-nav a:not(.nav-cta):hover { color: #fff; }
+.site-header.on-dark :focus-visible { box-shadow: 0 0 0 3px var(--charcoal), 0 0 0 5px #fff; }
+
+/* Lens: a small glass capsule that slides between nav links and rests on the current page */
+.site-nav ul { position: relative; }
+.nav-lens {
+  position: absolute;
+  top: 0; left: 0;
+  height: 0; width: 0;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  box-shadow: 0 2px 10px rgba(43, 42, 38, 0.1), inset 0 1px 0 #fff;
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    transform .45s cubic-bezier(.3, 1.35, .45, 1),
+    width .45s cubic-bezier(.3, 1.35, .45, 1),
+    opacity .25s ease;
+}
+.site-header.on-dark .nav-lens {
+  background: rgba(255, 255, 255, 0.14);
+  border-color: rgba(255, 255, 255, 0.22);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25);
+}
+.site-nav li { position: relative; z-index: 1; }     /* links sit above the lens */
+.site-nav.has-lens a:not(.nav-cta)::after { display: none; }   /* lens replaces the underline */
+.site-nav.has-lens a:not(.nav-cta):hover { color: inherit; }
+.site-nav a { border-radius: 999px; }
+
+/* Pointer highlight on controls (buttons, nav CTA, contact buttons) */
+.btn,
+.site-nav .nav-cta,
+.contact-btn { position: relative; overflow: hidden; isolation: isolate; }
+.btn::after,
+.site-nav .nav-cta::after,
+.contact-btn::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: radial-gradient(120px circle at var(--mx, 50%) var(--my, 50%), rgba(255, 255, 255, 0.38), transparent 70%);
+  opacity: 0;
+  transition: opacity .25s ease;
+  pointer-events: none;
+}
+.contact-btn::after { background: radial-gradient(160px circle at var(--mx, 50%) var(--my, 50%), rgba(206, 17, 38, 0.07), transparent 70%); }
+.btn:hover::after,
+.site-nav .nav-cta:hover::after,
+.contact-btn:hover::after { opacity: 1; }
+.btn:active,
+.site-nav .nav-cta:active { transform: scale(0.97); }
+
+/* Toast is part of the functional layer too */
+.toast {
+  background: var(--glass-light-strong);
+  -webkit-backdrop-filter: var(--glass-blur);
+  backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-edge-light);
+  border-radius: 999px;
+  box-shadow: 0 10px 30px rgba(43, 42, 38, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+@media (max-width: 1024px) {
+  .header-inner { padding-left: 10px; }
+}
+
+@media (max-width: 767.98px) {
+  .header-inner { height: 56px; padding: 0 6px 0 10px; }
+  .brand img { width: 36px; }
+  .hero-inner { padding-top: 124px; }
+  .page-hero .container { padding-top: 116px; }
+  .nav-lens { display: none; }
+
+  /* Menu opens as a separate glass panel under the bar (regular, more opaque: it's mostly text) */
+  .site-nav {
+    top: calc(100% + 8px);
+    left: 0; right: 0;
+    border: 1px solid var(--glass-edge-light);
+    border-radius: 24px;
+    background: var(--glass-panel);
+    -webkit-backdrop-filter: var(--glass-blur);
+    backdrop-filter: var(--glass-blur);
+    box-shadow: 0 16px 40px rgba(43, 42, 38, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+    overflow: hidden;
+  }
+  .site-nav ul { padding: 8px 16px 16px; }
+  .site-nav a { border-radius: 0; border-bottom-color: rgba(43, 42, 38, 0.1); }
+  .site-header.on-dark .site-nav a:not(.nav-cta) { color: var(--ink); }   /* panel stays light */
+}
+
+/* No backdrop-filter support, Reduce Transparency, or Increase Contrast: solid surfaces */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .header-inner, .toast { background: #fff; }
+  .site-header.on-dark .header-inner { background: var(--charcoal); }
+  .site-nav { background: #fff; }
+}
+@media (prefers-reduced-transparency: reduce), (prefers-contrast: more) {
+  .header-inner, .toast, .site-nav {
+    background: #fff;
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    border-color: var(--line-strong, #C9C8C3);
+  }
+  .site-header.on-dark .header-inner { background: var(--charcoal); border-color: #fff; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .nav-lens { transition: opacity .01ms; }
+  .btn:active, .site-nav .nav-cta:active { transform: none; }
+}
