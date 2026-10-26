@@ -90,8 +90,8 @@
   <!-- Turn on entrance/scroll animation unless the visitor prefers reduced motion (set before paint to avoid a flash) -->
   <script>if (!matchMedia("(prefers-reduced-motion: reduce)").matches) document.documentElement.classList.add("anim");</script>
   <!-- Bump ?v= on both lines whenever styles.css or main.js change, so browsers fetch the new files -->
-  <link rel="stylesheet" href="css/styles.css?v=202610261504">
-  <script src="js/main.js?v=202610261504" defer></script>
+  <link rel="stylesheet" href="css/styles.css?v=202610261554">
+  <script src="js/main.js?v=202610261553" defer></script>
 </head>
 <body id="top">
   <!-- Icon sprite: referenced below with <use href="#icon-…">. Shapes based on Lucide (ISC license). -->
@@ -143,7 +143,7 @@
           <ul class="social" role="list">
             <li><a href="https://www.instagram.com/iise_neu/?hl=en" target="_blank" rel="noopener noreferrer" aria-label="IISE Northeastern on Instagram (opens in a new tab)"><svg aria-hidden="true"><use href="#icon-instagram"/></svg></a></li>
             <li><a href="https://www.linkedin.com/school/iise-northeastern-university/posts/?feedView=all" target="_blank" rel="noopener noreferrer" aria-label="IISE Northeastern on LinkedIn (opens in a new tab)"><svg aria-hidden="true"><use href="#icon-linkedin"/></svg></a></li>
-            <li><a href="https://app.slack.com/client/T01AXDNAVRQ" target="_blank" rel="noopener noreferrer" aria-label="IISE Northeastern Slack workspace (opens in a new tab)"><svg aria-hidden="true"><use href="#icon-slack"/></svg></a></li>
+            <li><a href="https://join.slack.com/t/iise-northeastern/shared_invite/zt-2xcipzngj-AsuXN7jgYx8LaTXatLx2tw" target="_blank" rel="noopener noreferrer" aria-label="Join the IISE Northeastern Slack workspace (opens in a new tab)"><svg aria-hidden="true"><use href="#icon-slack"/></svg></a></li>
             <li><a href="mailto:iisenortheastern@gmail.com" aria-label="Email IISE Northeastern"><svg aria-hidden="true"><use href="#icon-mail"/></svg></a></li>
           </ul>
         </div>
@@ -227,8 +227,6 @@
           <p class="lead">Everyone is welcome. You don't need to be a member or an IE major to come.</p>
         </header>
 
-        <p class="event-legend"><span>General meeting (Mondays)</span><span class="is-special">Special event</span></p>
-
         <!-- Events are rendered from the EVENTS array in js/main.js -->
         <ul class="card-grid events-grid" id="events-list" role="list">
           <li class="events-empty">
@@ -248,16 +246,19 @@
           <h2 id="involved-title">Come to a meeting</h2>
           <p class="lead">Drop in any week. No sign-up needed.</p>
 
-          <dl class="meeting">
-            <div class="meeting-row">
-              <dt><svg aria-hidden="true"><use href="#icon-pin"/></svg><span>Where</span></dt>
-              <dd>Room IV 022</dd>
-            </div>
-            <div class="meeting-row">
-              <dt><svg aria-hidden="true"><use href="#icon-calendar"/></svg><span>When</span></dt>
-              <dd>Mondays, 6–7 pm</dd>
-            </div>
-          </dl>
+          <div class="meeting-card">
+            <dl class="meeting">
+              <div class="meeting-row">
+                <dt><span class="meeting-ico" aria-hidden="true"><svg><use href="#icon-pin"/></svg></span><span>Where</span></dt>
+                <dd>Room IV 022</dd>
+              </div>
+              <div class="meeting-row">
+                <dt><span class="meeting-ico" aria-hidden="true"><svg><use href="#icon-calendar"/></svg></span><span>When</span></dt>
+                <dd>Mondays, 6–7 pm</dd>
+              </div>
+            </dl>
+            <p class="meeting-next" id="meeting-next" hidden></p>
+          </div>
         </div>
 
         <div class="involved-links">
@@ -276,10 +277,9 @@
               </a>
             </li>
             <li>
-              <!-- TODO: This Slack URL only works for existing workspace members. Swap in a shareable invite link for new members. -->
-              <a class="contact-btn" href="https://app.slack.com/client/T01AXDNAVRQ" target="_blank" rel="noopener noreferrer">
+              <a class="contact-btn" href="https://join.slack.com/t/iise-northeastern/shared_invite/zt-2xcipzngj-AsuXN7jgYx8LaTXatLx2tw" target="_blank" rel="noopener noreferrer">
                 <svg aria-hidden="true"><use href="#icon-slack"/></svg>
-                <span><strong>Slack</strong><small>Chapter workspace</small></span><span class="visually-hidden"> (opens in a new tab)</span>
+                <span><strong>Slack</strong><small>Join the chapter workspace</small></span><span class="visually-hidden"> (opens in a new tab)</span>
               </a>
             </li>
             <li>
@@ -317,7 +317,7 @@
         <ul class="social" role="list">
           <li><a href="https://www.instagram.com/iise_neu/?hl=en" target="_blank" rel="noopener noreferrer" aria-label="IISE Northeastern on Instagram (opens in a new tab)"><svg aria-hidden="true"><use href="#icon-instagram"/></svg></a></li>
           <li><a href="https://www.linkedin.com/school/iise-northeastern-university/posts/?feedView=all" target="_blank" rel="noopener noreferrer" aria-label="IISE Northeastern on LinkedIn (opens in a new tab)"><svg aria-hidden="true"><use href="#icon-linkedin"/></svg></a></li>
-          <li><a href="https://app.slack.com/client/T01AXDNAVRQ" target="_blank" rel="noopener noreferrer" aria-label="IISE Northeastern Slack workspace (opens in a new tab)"><svg aria-hidden="true"><use href="#icon-slack"/></svg></a></li>
+          <li><a href="https://join.slack.com/t/iise-northeastern/shared_invite/zt-2xcipzngj-AsuXN7jgYx8LaTXatLx2tw" target="_blank" rel="noopener noreferrer" aria-label="Join the IISE Northeastern Slack workspace (opens in a new tab)"><svg aria-hidden="true"><use href="#icon-slack"/></svg></a></li>
           <li><a href="mailto:iisenortheastern@gmail.com" aria-label="Email IISE Northeastern"><svg aria-hidden="true"><use href="#icon-mail"/></svg></a></li>
         </ul>
       </div>

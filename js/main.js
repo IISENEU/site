@@ -175,7 +175,7 @@ function eventCard(e, { past = false } = {}) {
     meta.appendChild(li);
   }
 
-  card.append(top, meta, el("p", null, e.description));
+  card.append(top, el("p", "event-desc", e.description), meta);   // time and place sit along the bottom
   return card;
 }
 
@@ -213,6 +213,35 @@ function renderEvents() {
     fillList(pastList, past, "", { past: true });
     document.getElementById("past-events").hidden = past.length === 0;
   }
+}
+
+/* ---------- Next meeting ----------
+ * Under the meeting details on the home page: the date and topic of the next
+ * general meeting, taken from the same EVENTS list as the cards. */
+function renderNextMeeting() {
+  const line = document.getElementById("meeting-next");
+  if (!line) return;
+  const now = new Date();
+  const today = new Date(now);
+  today.setHours(0, 0, 0, 0);
+  const ended = (e) => {                                   // tonight's meeting is over once its end time passes
+    const times = parseTimes(e.time);
+    if (!times) return false;
+    const [h, m] = times[1].split(":").map(Number);
+    return now >= new Date(e.dateObj).setHours(h, m);
+  };
+  const next = EVENTS
+    .filter((e) => !e.tag && e.location === "IV 022")
+    .map((e) => ({ ...e, dateObj: parseDate(e.date) }))
+    .filter((e) => e.dateObj > today || (e.dateObj.getTime() === today.getTime() && !ended(e)))
+    .sort((a, b) => a.dateObj - b.dateObj)[0];
+  if (!next) return;
+  const when = next.dateObj.getTime() === today.getTime()
+    ? "Tonight"
+    : next.dateObj.toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" });
+  line.append(el("span", "live-dot"), el("span", "meeting-next-label", "Next up"), el("strong", null, when), el("span", "meeting-next-topic", next.title));
+  line.querySelector(".live-dot").setAttribute("aria-hidden", "true");
+  line.hidden = false;
 }
 
 /* ---------- Event listings for search engines ----------
@@ -522,7 +551,7 @@ function initGlass() {
       badge.style.setProperty("--gx", e.clientX - r.left + "px");
       badge.style.setProperty("--gy", e.clientY - r.top + "px");
     }
-    const control = e.target.closest(".btn, .nav-cta, .contact-btn, .social a, .card, .project, .cert-pricing, .cta-band, .involved-links");
+    const control = e.target.closest(".btn, .nav-cta, .contact-btn, .social a, .card, .project, .cert-pricing, .cta-band, .involved-links, .meeting-card");
     if (!control) return;
     const r = control.getBoundingClientRect();
     control.style.setProperty("--mx", e.clientX - r.left + "px");
@@ -678,7 +707,7 @@ function initScrollFx() {
 function initReveal() {
   if (!("IntersectionObserver" in window) || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
   const groups = document.querySelectorAll(".card-grid, .people, .past-grid, .contact-list");
-  const singles = document.querySelectorAll(".project-feature, .cert, .involved-copy, .partners, .section-head, .people-heading, .event-legend");
+  const singles = document.querySelectorAll(".project-feature, .cert, .involved-copy, .partners, .section-head, .people-heading");
   const items = [];
   groups.forEach((g) => [...g.children].forEach((child, i) => {
     child.style.transitionDelay = (i % 5) * 70 + "ms";   // a short stagger across each row
@@ -712,6 +741,7 @@ function setYear() {
 
 cleanUrl();
 renderEvents();
+renderNextMeeting();
 initNav();
 initSectionLinks();
 initEmailLinks();

@@ -429,23 +429,6 @@ a { color: var(--red); }
 }
 .event-special .date-badge { background: var(--charcoal); }
 
-.event-legend {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px 24px;
-  margin: -24px 0 24px;
-  font-size: 0.875rem;
-  color: var(--muted);
-}
-.event-legend span { display: inline-flex; align-items: center; gap: 8px; }
-.event-legend span::before {
-  content: "";
-  width: 12px; height: 12px;
-  border-radius: 3px;
-  background: var(--red);
-}
-.event-legend .is-special::before { background: var(--charcoal); }
-
 .event-meta {
   list-style: none;
   margin: 0 0 14px;
@@ -1882,6 +1865,22 @@ a { color: var(--red); }
     inset 0 -1px 0 rgba(43, 42, 38, 0.04);
 }
 
+@media (hover: hover) {
+  .involved-links:hover {
+    transform: translateY(-4px);
+    box-shadow:
+      0 0 0 1px rgba(43, 42, 38, 0.06),
+      0 2px 4px rgba(43, 42, 38, 0.06),
+      0 16px 36px -8px rgba(43, 42, 38, 0.18),
+      0 40px 72px -30px rgba(43, 42, 38, 0.26),
+      inset 0 1px 0 #fff,
+      inset 0 -1px 0 rgba(43, 42, 38, 0.04);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .involved-links:hover { transform: none; }
+}
+
 /* ---------- White boxes: surface depth ----------
    The face of each white box is lit from the top-left and falls off gently toward the
    bottom-right. On hover, a soft light follows the pointer across the face, the bottom
@@ -2231,3 +2230,327 @@ a { color: var(--red); }
   .site-header .site-nav.is-open .nav-extras .social a:hover { background: rgba(255, 255, 255, 0.16); border-color: rgba(255, 255, 255, 0.4); }
   .site-header .site-nav.is-open .nav-extras .social a::after { display: none; }
 }
+
+/* ---------- Event cards: one standard size ----------
+ * Every card is the same height so the grid reads as an even calendar:
+ * date and title up top, the description in the middle, and time and
+ * place along the bottom edge. */
+.events-grid { gap: 28px; grid-auto-rows: 1fr; }   /* every row as tall as the tallest card */
+.event {
+  min-height: 400px;
+  padding: 32px;
+}
+.event-top { gap: 18px; margin-bottom: 22px; }
+.event .date-badge { width: 72px; height: 78px; border-radius: 12px; }
+.event .date-badge .day { font-size: 2.15rem; }
+.event h3 { font-size: 1.45rem; line-height: 1.15; }
+.event .event-desc { margin: 0 0 24px; line-height: 1.6; }
+.event .event-meta {
+  margin: auto 0 0;                      /* pushed to the bottom of the card */
+  padding-top: 18px;
+  border-top: 1px solid var(--line);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 22px;
+}
+.event .event-meta li + li { margin-top: 0; }
+@media (max-width: 1024px) {
+  .event { min-height: 340px; }
+}
+@media (max-width: 767.98px) {
+  .events-grid { grid-auto-rows: auto; }   /* stacked on phones: no need to match heights */
+  .event { min-height: 0; padding: 26px; }
+}
+
+/* Faint globe in the top corner, like the one in the hero: an outline and two
+   lines of longitude. Shared by every dark box (meeting card, banners, pricing). */
+:root {
+  --globe-lines:
+    radial-gradient(circle closest-side, transparent calc(100% - 1.5px), rgba(255, 255, 255, 0.09) calc(100% - 1px), transparent 100%) right -60px top -60px / 220px 220px no-repeat,
+    radial-gradient(ellipse 30% 50% at 50% 50%, transparent calc(100% - 1.5px), rgba(255, 255, 255, 0.07) calc(100% - 1px), transparent 100%) right -60px top -60px / 220px 220px no-repeat,
+    radial-gradient(ellipse 62% 50% at 50% 50%, transparent calc(100% - 1.5px), rgba(255, 255, 255, 0.06) calc(100% - 1px), transparent 100%) right -60px top -60px / 220px 220px no-repeat;
+}
+
+/* ---------- Meeting card ----------
+ * "Come to a meeting" details on a dark glass card that matches the hero and
+ * footer: two frosted tiles with red icon chips, a red glow in the corner, a
+ * light that follows the pointer, and the next meeting along the bottom. */
+.meeting-card {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  margin-top: 32px;
+  padding: 26px;
+  border-radius: 20px;
+  background:
+    var(--globe-lines),
+    radial-gradient(380px circle at 100% 0%, rgba(206, 17, 38, 0.38), transparent 62%),
+    radial-gradient(300px circle at 0% 100%, rgba(206, 17, 38, 0.12), transparent 70%),
+    linear-gradient(160deg, #3B3A35 0%, var(--charcoal) 55%, #1F1E1B 100%);
+  color: #fff;
+  box-shadow:
+    0 0 0 1px rgba(43, 42, 38, 0.12),
+    0 2px 4px rgba(43, 42, 38, 0.12),
+    0 20px 44px -14px rgba(43, 42, 38, 0.5),
+    0 40px 80px -40px rgba(206, 17, 38, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.14);
+  transition: transform .35s cubic-bezier(.2, .8, .2, 1), box-shadow .35s ease;
+}
+/* Light that follows the pointer (js/main.js sets --mx / --my) */
+.meeting-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: radial-gradient(300px circle at var(--mx, 50%) var(--my, 50%), rgba(255, 255, 255, 0.09), transparent 70%);
+  opacity: 0;
+  transition: opacity .3s ease;
+  pointer-events: none;
+}
+
+.meeting-card .meeting {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+.meeting-card .meeting-row {
+  margin: 0;
+  padding: 18px 18px 16px;
+  border-radius: 14px;
+  background: linear-gradient(160deg, rgba(255, 255, 255, 0.09), rgba(255, 255, 255, 0.03));
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+}
+.meeting-card .meeting dt { gap: 10px; color: rgba(255, 255, 255, 0.6); font-size: 0.75rem; }
+.meeting-ico {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 32px; height: 32px;
+  border-radius: 10px;
+  background: linear-gradient(160deg, #E8364A, var(--red-dark));
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3), 0 6px 14px -4px rgba(206, 17, 38, 0.6);
+}
+.meeting-card .meeting dt svg { width: 16px; height: 16px; stroke: #fff; }
+.meeting-card .meeting dd {
+  margin-top: 14px;
+  font-size: 1.6rem;
+  color: #fff;
+  white-space: nowrap;
+}
+
+.meeting-next {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 10px;
+  margin: 18px 0 0;
+  padding-top: 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  font-size: 0.95rem;
+  color: rgba(255, 255, 255, 0.72);
+}
+.meeting-next[hidden] { display: none; }
+.meeting-next-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.55);
+}
+.meeting-next strong { color: #fff; font-weight: 600; }
+.meeting-next-topic::before { content: "·"; margin-right: 10px; color: rgba(255, 255, 255, 0.35); }
+.live-dot {
+  position: relative;
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: #FF4057;
+  box-shadow: 0 0 10px rgba(255, 64, 87, 0.8);
+}
+html.anim .live-dot::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: #FF4057;
+  animation: live-ping 2s cubic-bezier(0, 0, .2, 1) infinite;
+}
+@keyframes live-ping { 75%, 100% { transform: scale(2.6); opacity: 0; } }
+
+@media (hover: hover) {
+  .meeting-card:hover {
+    transform: translateY(-3px);
+    box-shadow:
+      0 0 0 1px rgba(43, 42, 38, 0.12),
+      0 4px 8px rgba(43, 42, 38, 0.12),
+      0 26px 54px -14px rgba(43, 42, 38, 0.55),
+      0 48px 90px -40px rgba(206, 17, 38, 0.5),
+      inset 0 1px 0 rgba(255, 255, 255, 0.14);
+  }
+  .meeting-card:hover::after { opacity: 1; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .meeting-card:hover { transform: none; }
+}
+@media (prefers-reduced-transparency: reduce) {
+  .meeting-card .meeting-row { -webkit-backdrop-filter: none; backdrop-filter: none; background: #3A3934; }
+}
+@media (max-width: 559.98px) {
+  .meeting-card { padding: 20px; }
+  .meeting-card .meeting { grid-template-columns: 1fr; }
+  .meeting-card .meeting dd { margin-top: 10px; font-size: 1.45rem; }
+  .meeting-next-topic { flex-basis: 100%; padding-left: 18px; }   /* its own line, under the date */
+  .meeting-next-topic::before { display: none; }
+}
+
+/* ---------- Action banners: dark ----------
+ * Boxes that ask people to do something (come to a meeting, register, follow,
+ * email) share the meeting card's dark glass; everything else stays light. */
+.cta-band,
+.section-alt .cta-band {
+  background:
+    var(--globe-lines),
+    radial-gradient(420px circle at 100% 0%, rgba(206, 17, 38, 0.32), transparent 62%),
+    linear-gradient(160deg, #3B3A35 0%, var(--charcoal) 55%, #1F1E1B 100%);
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  border: 0;
+  border-left: 0;
+  border-radius: 20px;
+  color: #fff;
+  box-shadow:
+    0 0 0 1px rgba(43, 42, 38, 0.12),
+    0 2px 4px rgba(43, 42, 38, 0.12),
+    0 20px 44px -14px rgba(43, 42, 38, 0.5),
+    0 40px 80px -40px rgba(206, 17, 38, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.14);
+}
+.cta-band p { color: rgba(255, 255, 255, 0.85); }
+.cta-band p a { color: #fff; }
+.cta-band::after,
+.section-alt .cta-band::after {
+  background: radial-gradient(300px circle at var(--mx, 50%) var(--my, 50%), rgba(255, 255, 255, 0.09), transparent 70%);
+}
+.cta-band::before {
+  background: radial-gradient(220px circle at var(--mx, -999px) var(--my, -999px), rgba(255, 255, 255, 0.4), transparent 70%);
+}
+@media (hover: hover) {
+  .cta-band:hover,
+  .section-alt .cta-band:hover {
+    box-shadow:
+      0 0 0 1px rgba(43, 42, 38, 0.12),
+      0 4px 8px rgba(43, 42, 38, 0.12),
+      0 26px 54px -14px rgba(43, 42, 38, 0.55),
+      0 48px 90px -40px rgba(206, 17, 38, 0.5),
+      inset 0 1px 0 rgba(255, 255, 255, 0.14);
+  }
+}
+.cert-pricing {
+  background:
+    var(--globe-lines),
+    radial-gradient(420px circle at 100% 0%, rgba(206, 17, 38, 0.32), transparent 62%),
+    linear-gradient(160deg, #3B3A35 0%, var(--charcoal) 55%, #1F1E1B 100%);
+  border-radius: 20px;
+}
+/* ---------- Section labels: glass pills ----------
+ * The small red label above each heading sits in a frosted capsule, like the
+ * lens in the nav bar, with a red dot in place of the dash. White glass on the
+ * light sections, clear glass on the dark heroes. When a section scrolls in, the
+ * dot pops in and a glint crosses the pill once. Not a control, so no hover. */
+.eyebrow {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  gap: 8px;
+  padding: 6px 14px 6px 11px;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  line-height: 1.2;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(255, 255, 255, 0.72));
+  border: 1px solid rgba(255, 255, 255, 0.95);
+  -webkit-backdrop-filter: blur(10px) saturate(1.4);
+  backdrop-filter: blur(10px) saturate(1.4);
+  box-shadow:
+    0 0 0 1px rgba(43, 42, 38, 0.07),
+    0 1px 2px rgba(43, 42, 38, 0.06),
+    0 6px 16px -6px rgba(43, 42, 38, 0.16),
+    inset 0 1px 0 #fff,
+    inset 0 -1px 0 rgba(43, 42, 38, 0.04);
+}
+.eyebrow::before {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--red);
+  box-shadow: 0 0 0 3px rgba(206, 17, 38, 0.12);
+}
+.eyebrow-light {
+  color: #fff;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0.05));
+  border-color: rgba(255, 255, 255, 0.18);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.22),
+    0 8px 20px -8px rgba(0, 0, 0, 0.45);
+}
+.eyebrow-light::before { background: #FF4057; box-shadow: 0 0 8px rgba(255, 64, 87, 0.8); }
+
+/* Glint */
+.eyebrow::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(105deg, transparent 30%, rgba(206, 17, 38, 0.1) 45%, rgba(255, 255, 255, 0.9) 50%, rgba(206, 17, 38, 0.1) 55%, transparent 70%);
+  transform: translateX(-120%);
+  pointer-events: none;
+}
+.eyebrow-light::after {
+  background: linear-gradient(105deg, transparent 30%, rgba(255, 255, 255, 0.28) 50%, transparent 70%);
+}
+.anim .section-head.reveal .eyebrow::before { width: 7px; transform: scale(0); }
+.anim .section-head.reveal.is-in .eyebrow::before {
+  width: 7px;
+  transform: scale(1);
+  transition: transform .5s cubic-bezier(.3, 1.6, .5, 1) .25s;
+}
+.anim .section-head.reveal.is-in .eyebrow::after,
+.anim .hero .eyebrow::after,
+.anim .page-hero .eyebrow::after { animation: eyebrow-glint 1.9s cubic-bezier(.45, 0, .25, 1) .5s both; }
+@keyframes eyebrow-glint { to { transform: translateX(120%); } }
+
+@media (prefers-reduced-transparency: reduce), (prefers-contrast: more) {
+  .eyebrow { -webkit-backdrop-filter: none; backdrop-filter: none; background: #fff; }
+  .eyebrow-light { background: rgba(255, 255, 255, 0.12); }
+}
+
+/* Globe on the left instead, where the footer's globe sits right below the box */
+.cta-band.globe-left {
+  background-position: left -60px top -60px, left -60px top -60px, left -60px top -60px, 0 0, 0 0;
+}
+@media (prefers-reduced-transparency: reduce), (prefers-contrast: more) {
+  .cta-band, .section-alt .cta-band, .cert-pricing { background: var(--charcoal); }
+}
+
+/* ---------- Contact page ---------- */
+.contact-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px 28px;
+  margin-top: 28px;
+}
+.contact-address { margin: 14px 0 0; font-size: 0.95rem; color: var(--muted); }
+.involved > .meeting-card { margin-top: 0; }   /* meeting card as a column of its own */
+
+/* ---------- Certifications: past courses ---------- */
+.cert-past { max-width: 760px; }
+.cert-past p + p { margin-top: 10px; }
+
+/* ---------- Page not found ---------- */
+.not-found { min-height: 64vh; display: flex; align-items: center; }
+.not-found .container { width: 100%; }
+.page-hero .hero-actions { margin-top: 32px; }
