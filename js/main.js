@@ -92,13 +92,12 @@ const EVENTS = [
     location: "IV 022",
     description: "An employer event with ABCorp.",
   },
-  // TODO: Add a description for the Community Engagement Event
   {
     date: "2026-10-26",
-    title: "Community Engagement Event",
+    title: "St. Francis House Winter Care Kits",
     time: "6:00 – 7:00 pm",
     location: "IV 022",
-    description: "Details coming soon.",
+    description: "Community engagement event: help put together winter care kits for St. Francis House, a Boston nonprofit that provides meals, shelter, and support services to neighbors in need.",
   },
   {
     date: "2026-11-02",
