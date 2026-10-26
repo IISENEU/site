@@ -395,10 +395,23 @@ function initGlass() {
     lens.style.transition = "";
     window.addEventListener("resize", () => moveTo(current));
     document.fonts && document.fonts.ready.then(() => moveTo(current));   // link widths change once fonts load
+    bar.addEventListener("animationend", (e) => { if (e.target === bar) moveTo(current); });   // re-measure after the bar's entrance
   }
+
+  // Move the header glow off the bar when the pointer leaves it
+  bar.addEventListener("pointerleave", () => {
+    bar.style.removeProperty("--hx");
+    bar.style.removeProperty("--hy");
+  });
 
   // Highlight that follows the pointer across controls
   document.addEventListener("pointermove", (e) => {
+    const bar = e.target.closest(".header-inner");
+    if (bar) {                                                                      // header glow + rim
+      const r = bar.getBoundingClientRect();
+      bar.style.setProperty("--hx", e.clientX - r.left + "px");
+      bar.style.setProperty("--hy", e.clientY - r.top + "px");
+    }
     const hero = e.target.closest(".hero");
     if (hero) hero.style.setProperty("--bx", e.clientX - hero.getBoundingClientRect().left + "px");   // hero bar highlight
     const control = e.target.closest(".btn, .nav-cta, .contact-btn, .social a, .card, .project, .cert-pricing, .cta-band, .involved-links");

@@ -1655,3 +1655,54 @@ a { color: var(--red); }
     -webkit-text-stroke: 0;
   }
 }
+
+/* ---------- Living glass header ----------
+   The bar drops in and comes into focus on load, a faint streak of light crosses it
+   every so often, and when the pointer is over it a soft highlight and a rim of light
+   follow the cursor (js/main.js sets --hx / --hy). */
+.header-inner { isolation: isolate; --rim: rgba(43, 42, 38, 0.3); --glow: rgba(255, 255, 255, 0.55); }
+.site-header.on-dark .header-inner { --rim: rgba(255, 255, 255, 0.75); --glow: rgba(255, 255, 255, 0.16); }
+
+.header-inner::before,
+.header-inner::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+}
+.header-inner::after {                          /* glow + idle sweep, beneath the bar's content */
+  z-index: -1;
+  background:
+    radial-gradient(180px circle at var(--hx, -999px) var(--hy, -999px), var(--glow), transparent 70%),
+    linear-gradient(100deg, transparent 42%, rgba(255, 255, 255, 0.22) 50%, transparent 58%);
+  background-size: 100% 100%, 300% 100%;
+  background-repeat: no-repeat;
+  background-position: 0 0, 160% 0;
+}
+.header-inner::before {                         /* rim of light along the edge */
+  z-index: 2;
+  padding: 1px;
+  background: radial-gradient(200px circle at var(--hx, -999px) var(--hy, -999px), var(--rim), transparent 70%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity .3s ease;
+}
+.header-inner:hover::before { opacity: 1; }
+
+.anim .header-inner {
+  animation: bar-in .9s cubic-bezier(.2, .8, .2, 1) backwards;   /* releases its styles when done */
+}
+.anim .header-inner::after {
+  animation: bar-sweep 11s ease-in-out 1.6s infinite;
+}
+@keyframes bar-in {
+  from { opacity: 0; transform: translateY(-18px) scale(0.97); filter: blur(6px); }
+  to   { opacity: 1; transform: none; filter: none; }
+}
+@keyframes bar-sweep {
+  0%, 8%    { background-position: 0 0, 160% 0; }
+  30%, 100% { background-position: 0 0, -60% 0; }
+}
