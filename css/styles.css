@@ -872,7 +872,7 @@ a { color: var(--red); }
   text-transform: uppercase;
   line-height: 1;
 }
-.footer-name span { color: var(--red-on-dark, #FF6170); }
+.footer-name span { color: var(--red-on-dark, #E51E33); }
 .footer-tagline { max-width: 34ch; margin: 12px 0 16px; line-height: 1.6; color: rgba(255, 255, 255, 0.66); }
 
 .footer-heading {
@@ -1119,7 +1119,7 @@ a { color: var(--red); }
   --glass-dark: rgba(0, 0, 0, 0.4);
   --glass-edge-light: rgba(255, 255, 255, 0.7);
   --glass-edge-dark: rgba(255, 255, 255, 0.16);
-  --red-on-dark: #FF6170;                            /* 4.8:1 on charcoal */
+  --red-on-dark: #E51E33;                            /* deep red, 4.6:1 on black */
 }
 
 /* Floating bar: content (including the dark hero) runs underneath it */
@@ -2690,11 +2690,17 @@ html.anim .live-dot::after {
  * texture rather than pattern. Sits on top of the existing soft red and grey tints. */
 .section-alt {
   background:
-    radial-gradient(circle, rgba(17, 17, 17, 0.09) 1px, transparent 1.6px) 0 0 / 22px 22px,
+    radial-gradient(circle, rgba(17, 17, 17, 0.11) 1px, transparent 1.6px) 0 0 / 40px 40px,
     radial-gradient(700px 320px at 12% 0%, rgba(206, 17, 38, 0.05), transparent 70%),
     radial-gradient(640px 360px at 92% 100%, rgba(17, 17, 17, 0.06), transparent 70%),
     var(--bg-alt);
 }
 @media (prefers-contrast: more) {
   .section-alt { background: var(--bg-alt); }
+}
+/* Soft shadows where white sections meet a grey one, top and bottom, as if the white sits on top */
+.section-alt {
+  box-shadow:
+    inset 0 14px 18px -14px rgba(17, 17, 17, 0.14),
+    inset 0 -14px 18px -14px rgba(17, 17, 17, 0.14);
 }
