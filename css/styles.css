@@ -2581,7 +2581,7 @@ html.anim .live-dot::after {
   .nav-menu-only { display: none; }
 }
 }
-.support-line { margin: 24px 0 0; }
+.support-line { margin: 28px 0 0; }   /* clear of the meeting card's shadow */
 
 /* ---------- Hero texture ----------
  * Depth for the black hero (home and every page header):
@@ -2636,4 +2636,66 @@ html.anim .live-dot::after {
   background: linear-gradient(160deg, #E8364A, var(--red-dark));
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3), 0 8px 18px -6px rgba(206, 17, 38, 0.55);
   color: #fff;
+}
+
+/* Logo mark: just the globe and "IISE" (assets/iise-mark.png), without the ring text
+   that's too small to read at this size. The globe fills the image, so it's set a bit
+   smaller than the full logo was; a white ring frames it on the dark header. */
+.brand img { width: 32px; height: 32px; }
+.site-header.on-dark .brand img { box-shadow: 0 0 0 3px #fff; }
+.footer-logo img { width: 34px; height: 34px; }
+@media (max-width: 767.98px) {
+  .brand img { width: 30px; height: 30px; }
+}
+
+/* ---------- Header bar: clearer glass ----------
+ * Less tint and a lighter blur so the page shows through, extra saturation so colors
+ * behind the bar glow, and a faint sheen across the top half so it reads as a pane
+ * of glass rather than a white pill. Over dark areas (hero, footer, dark boxes) it
+ * switches to white text; see initGlass in js/main.js. */
+.header-inner {
+  background-color: rgba(255, 255, 255, 0.2);
+  background-image: linear-gradient(180deg, rgba(255, 255, 255, 0.32) 0%, rgba(255, 255, 255, 0) 60%);
+  -webkit-backdrop-filter: blur(14px) saturate(1.9);
+  backdrop-filter: blur(14px) saturate(1.9);
+  border-color: transparent;                 /* the edge is drawn as a gradient rim below */
+}
+/* Gradient rim: light catches the top edge, fades down the sides, and glints faintly
+   along the bottom, like the edge of a pane of glass. The pointer-following rim
+   (--hx / --hy from js/main.js) still brightens it on hover. */
+.header-inner::before {
+  background:
+    radial-gradient(200px circle at var(--hx, -999px) var(--hy, -999px), var(--rim), transparent 70%),
+    linear-gradient(180deg, var(--rim-top) 0%, rgba(255, 255, 255, 0.12) 40%, rgba(255, 255, 255, 0) 62%, var(--rim-bottom) 100%);
+  opacity: 1;
+}
+.header-inner { --rim-top: rgba(255, 255, 255, 0.95); --rim-bottom: rgba(255, 255, 255, 0.35); }
+.site-header.on-dark .header-inner { --rim-top: rgba(255, 255, 255, 0.4); --rim-bottom: rgba(255, 255, 255, 0.12); }
+.site-header.on-dark .header-inner {
+  background-color: rgba(0, 0, 0, 0.14);
+  background-image: linear-gradient(180deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0) 60%);
+}
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .header-inner { background: #fff; }
+  .site-header.on-dark .header-inner { background: var(--charcoal); }
+}
+@media (prefers-reduced-transparency: reduce), (prefers-contrast: more) {
+  .header-inner { background: #fff; -webkit-backdrop-filter: none; backdrop-filter: none; border-color: var(--line-strong, #CBCBCB); }
+  .header-inner::before { display: none; }
+  .site-header.on-dark .header-inner { background: var(--charcoal); }
+}
+.site-header.on-mixed:not(.on-dark) .header-inner { background-color: rgba(255, 255, 255, 0.66); }
+
+/* ---------- Grey sections: dot texture ----------
+ * A fine grid of small dots over the light grey sections, faint enough to read as
+ * texture rather than pattern. Sits on top of the existing soft red and grey tints. */
+.section-alt {
+  background:
+    radial-gradient(circle, rgba(17, 17, 17, 0.09) 1px, transparent 1.6px) 0 0 / 22px 22px,
+    radial-gradient(700px 320px at 12% 0%, rgba(206, 17, 38, 0.05), transparent 70%),
+    radial-gradient(640px 360px at 92% 100%, rgba(17, 17, 17, 0.06), transparent 70%),
+    var(--bg-alt);
+}
+@media (prefers-contrast: more) {
+  .section-alt { background: var(--bg-alt); }
 }

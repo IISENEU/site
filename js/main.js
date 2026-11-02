@@ -471,17 +471,27 @@ function initGlass() {
   const bar = header.querySelector(".header-inner");
 
   // Adaptive appearance: check what is scrolling under the middle of the bar
-  const darkSurfaces = [...document.querySelectorAll(".hero, .site-footer")];
+  const darkSurfaces = [...document.querySelectorAll(".hero, .site-footer, .meeting-card, .cta-band, .cert-pricing")];
+  const busySurfaces = [...document.querySelectorAll(".person-photo")];
   let queued = false;
   const update = () => {
     queued = false;
     const b = bar.getBoundingClientRect();
     const y = b.top + b.height / 2;
-    const onDark = darkSurfaces.some((el) => {
+    // How much of the bar's width has a dark surface behind it
+    let cover = 0;
+    for (const el of darkSurfaces) {
       const r = el.getBoundingClientRect();
-      return r.top <= y && r.bottom >= y;
+      if (r.top > y || r.bottom < y) continue;
+      cover = Math.max(cover, (Math.min(r.right, b.right) - Math.max(r.left, b.left)) / b.width);
+    }
+    // Photos are busy behind clear glass, so they get the frostier glass too
+    const overPhoto = busySurfaces.some((el) => {
+      const r = el.getBoundingClientRect();
+      return r.top <= b.bottom && r.bottom >= b.top && r.right >= b.left && r.left <= b.right;
     });
-    header.classList.toggle("on-dark", onDark);
+    header.classList.toggle("on-dark", cover >= 0.6);                                  // mostly dark: white text
+    header.classList.toggle("on-mixed", cover < 0.6 && (cover > 0 || overPhoto));     // partly dark or photos: frostier glass keeps dark text readable
   };
   const queue = () => {
     if (!queued) { queued = true; requestAnimationFrame(update); }
@@ -750,7 +760,7 @@ function initScrollSpring() {
 
   const STIFFNESS = 190, DAMPING = 16;   // underdamped: settles with one small bounce
   const PULL = 0.24;                     // how much of each scroll step a card lags by
-  const MAX = 18;                        // never trails by more than this many pixels
+  const MAX = 10;                        // never trails by more than this many pixels, even on a fast flick
   const springs = cards.map((el) => ({ el, y: 0, v: 0 }));
   let lastScroll = window.scrollY;
   let lastTime = 0;
