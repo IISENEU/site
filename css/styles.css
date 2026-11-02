@@ -2580,7 +2580,6 @@ html.anim .live-dot::after {
 @media (min-width: 768px) {
   .nav-menu-only { display: none; }
 }
-}
 .support-line { margin: 28px 0 0; }   /* clear of the meeting card's shadow */
 
 /* ---------- Hero texture ----------
