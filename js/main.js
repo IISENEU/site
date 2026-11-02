@@ -473,6 +473,7 @@ function initGlass() {
   // Adaptive appearance: check what is scrolling under the middle of the bar
   const darkSurfaces = [...document.querySelectorAll(".hero, .site-footer, .meeting-card, .cta-band, .cert-pricing")];
   const busySurfaces = [...document.querySelectorAll(".person-photo")];
+  const heroText = [...document.querySelectorAll(".hero .eyebrow, .hero h1, .hero-tagline, .hero-actions")];
   let queued = false;
   const update = () => {
     queued = false;
@@ -490,6 +491,11 @@ function initGlass() {
       const r = el.getBoundingClientRect();
       return r.top <= b.bottom && r.bottom >= b.top && r.right >= b.left && r.left <= b.right;
     });
+    // Hero title and text under the bar: frost it a little more so they don't read through
+    header.classList.toggle("over-text", heroText.some((el) => {
+      const r = el.getBoundingClientRect();
+      return r.top <= b.bottom && r.bottom >= b.top && r.right >= b.left && r.left <= b.right;
+    }));
     header.classList.toggle("on-dark", cover >= 0.6);                                  // mostly dark: white text
     header.classList.toggle("on-mixed", cover < 0.6 && (cover > 0 || overPhoto));     // partly dark or photos: frostier glass keeps dark text readable
   };

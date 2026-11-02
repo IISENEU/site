@@ -2670,9 +2670,19 @@ html.anim .live-dot::after {
 }
 .header-inner { --rim-top: rgba(255, 255, 255, 0.95); --rim-bottom: rgba(255, 255, 255, 0.35); }
 .site-header.on-dark .header-inner { --rim-top: rgba(255, 255, 255, 0.4); --rim-bottom: rgba(255, 255, 255, 0.12); }
+/* Over black there's nothing to blur, so the dark state uses only a whisper of blur
+   (the header grid stays visible through it), a faint white tint so it reads as a pane
+   sitting on the black, and a soft sheen down the face */
 .site-header.on-dark .header-inner {
-  background-color: rgba(0, 0, 0, 0.14);
-  background-image: linear-gradient(180deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0) 60%);
+  background-color: rgba(255, 255, 255, 0.025);
+  background-image: linear-gradient(180deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0) 50%, rgba(255, 255, 255, 0.03) 100%);
+  -webkit-backdrop-filter: blur(1px) saturate(1.6) brightness(1.6);   /* black stays black; the grid lines light up */
+  backdrop-filter: blur(1px) saturate(1.6) brightness(1.6);
+}
+.site-header.on-dark.over-text .header-inner {          /* hero text underneath: soften it */
+  background-color: rgba(255, 255, 255, 0.05);
+  -webkit-backdrop-filter: blur(7px) saturate(1.6) brightness(1.3);
+  backdrop-filter: blur(7px) saturate(1.6) brightness(1.3);
 }
 @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
   .header-inner { background: #fff; }
