@@ -2714,3 +2714,29 @@ html.anim .live-dot::after {
     inset 0 14px 18px -14px rgba(17, 17, 17, 0.14),
     inset 0 -14px 18px -14px rgba(17, 17, 17, 0.14);
 }
+
+/* ---------- Header light ----------
+ * The pointer carries a soft light across the black header: a faint glow on the
+ * surface, and the grid lines brighten around it (an extra mask layer centered on
+ * the pointer; js/main.js sets --lx / --ly). Pointer devices only. */
+@media (hover: hover) and (min-width: 768px) {
+  .hero {
+    background:
+      radial-gradient(320px circle at var(--lx, -999px) var(--ly, -999px), rgba(255, 255, 255, 0.055), transparent 70%),
+      var(--grain),
+      radial-gradient(520px 420px at 78% 42%, rgba(255, 255, 255, 0.07), transparent 70%),
+      radial-gradient(640px 360px at 0% 100%, rgba(206, 17, 38, 0.2), transparent 70%),
+      var(--charcoal);
+  }
+  .hero::before {
+    -webkit-mask-image:
+      radial-gradient(220px circle at var(--lx, -999px) var(--ly, -999px), #000, transparent 75%),
+      radial-gradient(ellipse 60% 95% at 18% 50%, #000 0%, rgba(0, 0, 0, 0.6) 45%, rgba(0, 0, 0, 0.28) 100%);
+    mask-image:
+      radial-gradient(220px circle at var(--lx, -999px) var(--ly, -999px), #000, transparent 75%),
+      radial-gradient(ellipse 60% 95% at 18% 50%, #000 0%, rgba(0, 0, 0, 0.6) 45%, rgba(0, 0, 0, 0.28) 100%);
+  }
+}
+@media (prefers-contrast: more) {
+  .hero { background: var(--charcoal); }
+}

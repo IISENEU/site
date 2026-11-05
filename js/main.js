@@ -544,6 +544,12 @@ function initGlass() {
     });
   }
 
+  // Turn the header light off when the pointer leaves the header
+  document.querySelectorAll(".hero").forEach((hero) => hero.addEventListener("pointerleave", () => {
+    hero.style.removeProperty("--lx");
+    hero.style.removeProperty("--ly");
+  }));
+
   // Move the header glow off the bar when the pointer leaves it
   bar.addEventListener("pointerleave", () => {
     bar.style.removeProperty("--hx");
@@ -559,7 +565,12 @@ function initGlass() {
       bar.style.setProperty("--hy", e.clientY - r.top + "px");
     }
     const hero = e.target.closest(".hero");
-    if (hero) hero.style.setProperty("--bx", e.clientX - hero.getBoundingClientRect().left + "px");   // hero bar highlight
+    if (hero) {
+      const r = hero.getBoundingClientRect();
+      hero.style.setProperty("--bx", e.clientX - r.left + "px");                     // hero bar highlight
+      hero.style.setProperty("--lx", e.clientX - r.left + "px");                     // light on the grid
+      hero.style.setProperty("--ly", e.clientY - r.top + "px");
+    }
     const eventCard = e.target.closest(".event");
     if (eventCard) {                                                                 // date badge highlight
       const badge = eventCard.querySelector(".date-badge");
