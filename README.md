@@ -37,14 +37,25 @@ on file (Manage Account → Billing). Check this before every October.
 
 ## Getting set up (new webmaster)
 
-1. Get a GitHub account, and have the outgoing webmaster add it as a collaborator:
-   sign in as IISENEU → `site` repo → Settings → Collaborators → Add people.
+The site is edited through the club's shared **IISENEU** GitHub account; you don't need
+a GitHub account of your own.
+
+1. Get the IISENEU login from the outgoing webmaster: the password, plus the two-factor
+   setup key. Add that key to an authenticator app on your phone (Google Authenticator,
+   Authy, 1Password, …) so you can generate sign-in codes.
 2. Install the Claude desktop app (or Claude Code in a terminal) and git.
 3. Clone the repo: `git clone https://github.com/IISENEU/site.git`, then open that folder
    in Claude Code. Claude reads `CLAUDE.md` automatically, so it already knows how the
    site is built and the rules to follow.
-4. Ask Claude to start the preview. The site opens at http://localhost:8765 and updates
+4. Ask Claude to "set up GitHub sign-in for pushing", and sign in as **IISENEU** when the
+   browser opens. (Git doesn't accept the account password directly; this is the one-time
+   setup that lets your computer publish changes.)
+5. Ask Claude to start the preview. The site opens at http://localhost:8765 and updates
    as you make changes.
+
+Signed in as IISENEU you have full owner access to the repo, including its settings. Ask
+before changing anything under the repo's Settings tab (Pages, custom domain), since a
+mistake there can take the site offline.
 
 ## Making changes
 
@@ -71,9 +82,12 @@ this link: …".
 
 ## Handing off to the next webmaster
 
-- [ ] Add the new person to the `site` repo as a collaborator.
 - [ ] Share the IISENEU GitHub login, its two-factor setup key, and recovery codes.
 - [ ] Share the club Gmail login (it owns Cloudflare and Search Console).
 - [ ] Check the Cloudflare payment method and the domain's auto-renew.
 - [ ] Have them make one small change, push it, and see it live while you're around.
-- [ ] Remove your own access once they're set up.
+- [ ] Once they're set up, have them change the IISENEU password (and, if they want,
+      reset its two-factor) and save the new details where the club keeps shared logins.
+      Remove the IISENEU sign-in from your own computer.
+- [ ] If your personal GitHub account was added to the repo as a collaborator, remove it
+      (sign in as IISENEU → `site` → Settings → Collaborators).
