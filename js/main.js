@@ -461,6 +461,30 @@ function initScrollSpy() {
   update();
 }
 
+/* ---------- Mailing list ----------
+ * Every sign-up button and link has data-mailing-list. Put the sign-up form's
+ * address here and they all link to it; until then they say it's coming soon. */
+const MAILING_LIST_URL = "";
+
+function initMailingList() {
+  document.querySelectorAll("[data-mailing-list]").forEach((link) => {
+    if (MAILING_LIST_URL) {
+      link.href = MAILING_LIST_URL;
+      link.target = "_blank";
+      link.rel = "noopener noreferrer";
+      return;
+    }
+    link.setAttribute("role", "button");
+    link.tabIndex = 0;
+    const soon = (e) => {
+      e.preventDefault();
+      showToast("Mailing list sign-up is coming soon. Follow us on Instagram for updates in the meantime.");
+    };
+    link.addEventListener("click", soon);
+    link.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") soon(e); });
+  });
+}
+
 /* ---------- Glass header ----------
  * Light glass over light content and dark glass over the hero and footer,
  * a lens that slides between nav links, and a highlight that follows the
@@ -831,6 +855,7 @@ renderNextMeeting();
 initNav();
 initSectionLinks();
 initEmailLinks();
+initMailingList();
 initScrollSpy();
 initGlass();
 initGlobe();

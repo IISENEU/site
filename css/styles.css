@@ -2580,6 +2580,15 @@ html.anim .live-dot::after {
 @media (min-width: 768px) {
   .nav-menu-only { display: none; }
 }
+
+/* ---------- Mailing list sign-ups ---------- */
+[data-mailing-list] { cursor: pointer; }
+.footer-meet a[data-mailing-list] { text-decoration: underline; }   /* like the email link above it */
+.cta-actions { display: flex; flex-wrap: wrap; gap: 12px; }
+.section-more { display: flex; flex-wrap: wrap; gap: 10px 32px; }
+@media (max-width: 767.98px) {
+  .cta-actions { width: 100%; flex-direction: column; }
+}
 .support-line { margin: 28px 0 0; }   /* clear of the meeting card's shadow */
 
 /* ---------- Hero texture ----------
