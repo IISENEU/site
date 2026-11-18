@@ -127,14 +127,6 @@ const EVENTS = [
     location: "IV 022",
     description: "An open conversation about the industrial engineering program.",
   },
-  {
-    date: "2026-12-05",
-    title: "test",
-    tag: "Test",
-    time: "TBA",
-    location: "TBA",
-    description: "Test event.",
-  },
 ];
 
 const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
