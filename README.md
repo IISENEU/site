@@ -44,14 +44,17 @@ a GitHub account of your own.
    setup key. Add that key to an authenticator app on your phone (Google Authenticator,
    Authy, 1Password, …) so you can generate sign-in codes.
 2. Install the Claude desktop app (or Claude Code in a terminal) and git.
-3. Clone the repo: `git clone https://github.com/IISENEU/site.git`, then open that folder
-   in Claude Code. Claude reads `CLAUDE.md` automatically, so it already knows how the
-   site is built and the rules to follow.
+3. Clone the repo: `git clone https://github.com/IISENEU/site.git`. This creates a folder
+   called `site`. In Claude Code, open **the `site` folder itself** (the one containing
+   `index.html` and `CLAUDE.md`), not the folder above it. Claude reads `CLAUDE.md`
+   automatically from the folder you open, so it already knows how the site is built and
+   the rules to follow; from any other folder it won't, and the preview won't start.
 4. Ask Claude to "set up GitHub sign-in for pushing", and sign in as **IISENEU** when the
    browser opens. (Git doesn't accept the account password directly; this is the one-time
    setup that lets your computer publish changes.)
 5. Ask Claude to start the preview. The site opens at http://localhost:8765 and updates
-   as you make changes.
+   as you make changes. If the app asks permission to open localhost in its browser
+   pane, allow it, or open that address in your own browser.
 
 Signed in as IISENEU you have full owner access to the repo, including its settings. Ask
 before changing anything under the repo's Settings tab (Pages, custom domain), since a

@@ -21,4 +21,5 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             return io.BytesIO(body)
         return super().send_head()
 
-http.server.ThreadingHTTPServer(("", int(sys.argv[1])), Handler).serve_forever()
+# Listen on this computer only, so other devices on the network can't reach the preview
+http.server.ThreadingHTTPServer(("127.0.0.1", int(sys.argv[1])), Handler).serve_forever()
